@@ -9,7 +9,7 @@ public abstract class Game {
 	private GameInfo info;
 	private byte
 		turn_num = 0,
-		dart_num = 0;
+		player_num = 0;
 
 	/**
 	 * Creates a new Game with the given number of temporary players. 
@@ -40,9 +40,9 @@ public abstract class Game {
 	 * Adds the given dart score to the GameInfo if rules allow
 	 * Also updates turn and dart number according to the game's rules
 	 * @param score The dart score to be added
-	 * @return Returns whether or not the game is now over
+	 * @return Returns whether additional action needs to be taken (game ended, player fouled, etc)
 	 */
-	public abstract boolean addDartScore(Byte score);
+	public abstract boolean addScore(byte score);
 
 	/**
 	 * 
@@ -56,18 +56,18 @@ public abstract class Game {
 
 	/**
 	 * 
-	 * @return Returns the current turn number (counting from 1)
+	 * @return Returns the current turn number
 	 */
 	public byte getTurnNum() {
-		return (byte) (turn_num + 1);
+		return turn_num;
 	}
 
 	/**
 	 * 
-	 * @return Returns the current dart number (counting from 1)
+	 * @return Returns the current player number
 	 */
-	public byte getDartNum() {
-		return (byte) (dart_num + 1);
+	public byte getPlayerNum() {
+		return player_num;
 	}
 
 }

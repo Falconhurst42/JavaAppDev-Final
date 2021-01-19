@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class GameInfo {
 	private ArrayList<User> _players;
 	private ArrayList<Byte> total_scores = new ArrayList<Byte>();
-	private ArrayList<ArrayList<Byte>> dart_scores = new ArrayList<ArrayList<Byte>>();
+	private ArrayList<Byte> dart_counts = new ArrayList<Byte>();
 	private User winner = null;
 
 	/**
@@ -35,10 +35,10 @@ public class GameInfo {
 
 	/**
 	 * Get the dart scores for the players
-	 * @return Returns an ArrayList containing the player's dart scores
+	 * @return Returns an ArrayList containing the player's dart counts
 	 */
-	public ArrayList<ArrayList<Byte>> getDartScores() {
-		return dart_scores;
+	public ArrayList<Byte> getDartCounts() {
+		return dart_counts;
 	}
 
 	/**

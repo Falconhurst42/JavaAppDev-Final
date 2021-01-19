@@ -11,7 +11,7 @@ public class User {
 	private String _name;
 
 	/**
-	 * Either creates a temporary User or a new new with a generic name, depending on the boolean passed in
+	 * Either creates a temporary User or a new User with a generic name, depending on the boolean passed in
 	 * @param isTemporary Whether the user should be temporary or not
 	 */
 	public User(boolean isTemporary) {
@@ -25,19 +25,35 @@ public class User {
 		}
 	}
 
+	/**
+	 * Creates a user with the given name
+	 * @param name The User's name
+	 */
 	public User(String name) {
 		_id = next_id++;
 		setName(name);
 	}
 
-	public int getID() {
+	/**
+	 * 
+	 * @return Returns the User's id
+	 */
+	public final int getID() {
 		return _id;
 	}
 
+	/**
+	 * 
+	 * @return REturns the User's name
+	 */
 	public String getName() {
 		return _name;
 	}
 
+	/**
+	 * Sets the User's name to the given string
+	 * @param name The User's name
+	 */
 	public void setName(String name) {
 		_name = name;
 	}
