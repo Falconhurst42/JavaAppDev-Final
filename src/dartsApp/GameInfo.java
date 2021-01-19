@@ -57,5 +57,13 @@ public class GameInfo {
 	public User getWinner() {
 		return winner;
 	}
+	
+	/**
+	 * Sets the given User as this Game's winner
+	 * @param winner The winning User
+	 */
+	public void setWinner(User winner) {
+		this.winner = winner;
+	}
 
 }

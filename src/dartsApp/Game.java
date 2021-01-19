@@ -6,10 +6,14 @@ package dartsApp;
  *
  */
 public abstract class Game {
-	private GameInfo info;
-	private byte
+	protected GameInfo info;
+	protected byte
 		turn_num = 0,
 		player_num = 0;
+	enum GameEvent {
+		GAMEOVER,
+		PLAYERBUSTED
+	}
 
 	/**
 	 * Creates a new Game with the given number of temporary players. 
@@ -41,8 +45,9 @@ public abstract class Game {
 	 * Also updates turn and dart number according to the game's rules
 	 * @param score The dart score to be added
 	 * @return Returns whether additional action needs to be taken (game ended, player fouled, etc)
+	 * TODO: change boolean return to some sort of enum (GAMEOVER, PLAYERBUST, etc)
 	 */
-	public abstract boolean addScore(byte score);
+	public abstract GameEvent addScore(byte score);
 
 	/**
 	 * 
