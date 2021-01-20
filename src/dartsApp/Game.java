@@ -12,7 +12,8 @@ public abstract class Game {
 		player_num = 0;
 	enum GameEvent {
 		GAMEOVER,
-		PLAYERBUSTED
+		PLAYERBUSTED,
+		INVALIDSCORE
 	}
 
 	/**
@@ -22,12 +23,11 @@ public abstract class Game {
 	 */
 	public Game(byte player_count) {
 		// create temp players
-		User[] temp_players = {
-				new User(true),
-				new User(true),
-				new User(true),
-				new User(true)
-		};
+		User[] temp_players = new User[player_count];
+		for(int i = 0; i < player_count; i++) {
+			temp_players[i] = new User(i+1);
+		}
+		
 		// create game info
 		info = new GameInfo(temp_players);
 	}
@@ -47,7 +47,7 @@ public abstract class Game {
 	 * @return Returns whether additional action needs to be taken (game ended, player fouled, etc)
 	 * TODO: change boolean return to some sort of enum (GAMEOVER, PLAYERBUST, etc)
 	 */
-	public abstract GameEvent addScore(byte score);
+	public abstract GameEvent addScore(short score);
 
 	/**
 	 * 
@@ -77,14 +77,10 @@ public abstract class Game {
 	
 	/**
 	 * Get the player whose turn it is
-	 * @return REturns the player who is up next
+	 * @return Returns the player who is up next
 	 */
 	public User getCurrentPlayer() {
 		return info.getPlayers().get(player_num);
 	}
-	
-	/**
-	 * Gets the given name of the player of the given number in the players array
-	 */
 
 }

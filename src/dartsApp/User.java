@@ -11,18 +11,11 @@ public class User {
 	private String _name;
 
 	/**
-	 * Either creates a temporary User or a new User with a generic name, depending on the boolean passed in
-	 * @param isTemporary Whether the user should be temporary or not
+	 * Creates a new User with a generic name
 	 */
-	public User(boolean isTemporary) {
-		if(isTemporary) {
-			_id = -1;
-			_name = "Guest User";
-		}
-		else {
-			_id = next_id++;
-			_name = String.format("User #%d", _id);
-		}
+	public User() {
+		_id = next_id++;
+		_name = String.format("User #%d", _id);
 	}
 
 	/**
@@ -32,6 +25,14 @@ public class User {
 	public User(String name) {
 		_id = next_id++;
 		setName(name);
+	}
+
+	/**
+	 * Creates a new temporary User with the given player number
+	 */
+	public User(int player_num) {
+		_id = -Math.abs(player_num);
+		_name = String.format("Guest User #%d", Math.abs(player_num));
 	}
 
 	/**

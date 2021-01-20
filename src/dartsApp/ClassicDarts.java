@@ -7,7 +7,8 @@ package dartsApp;
  */
 public class ClassicDarts extends Game {
 	private final static byte DARTS_PER_TURN = 3;
-	private final byte TARGET_SCORE;
+	private final static short DEF_TARGET_SCORE = 301;
+	private final short TARGET_SCORE;
 
 	/**
 	 * Creates a new Game with the given number of temporary players and a default target score (301) 
@@ -15,7 +16,7 @@ public class ClassicDarts extends Game {
 	 */
 	public ClassicDarts(byte player_count) {
 		super(player_count);
-		TARGET_SCORE = (byte)301;
+		TARGET_SCORE = DEF_TARGET_SCORE;
 	}
 
 	/**
@@ -24,7 +25,7 @@ public class ClassicDarts extends Game {
 	 */
 	public ClassicDarts(User[] players) {
 		super(players);
-		TARGET_SCORE = (byte)301;
+		TARGET_SCORE = DEF_TARGET_SCORE;
 	}
 	
 	/**
@@ -32,7 +33,7 @@ public class ClassicDarts extends Game {
 	 * @param player_count The number of players
 	 * @param target_score The target score for this game
 	 */
-	public ClassicDarts(byte player_count, byte target_score) {
+	public ClassicDarts(byte player_count, short target_score) {
 		super(player_count);
 		TARGET_SCORE = target_score;
 	}
@@ -42,13 +43,16 @@ public class ClassicDarts extends Game {
 	 * @param players Players of this game
 	 * @param target_score The target score for this game
 	 */
-	public ClassicDarts(User[] players, byte target_score) {
+	public ClassicDarts(User[] players, short target_score) {
 		super(players);
 		TARGET_SCORE = target_score;
 	}
 
 	@Override
-	public GameEvent addScore(byte score) {
+	public GameEvent addScore(short score) {
+		if(score < 0 || score > 180) {
+			return GameEvent.INVALIDSCORE;
+		}
 		GameEvent ret = null;
 		// check for bust
 		if(info.getTotalScores().get(player_num)+score > TARGET_SCORE) {
@@ -59,13 +63,13 @@ public class ClassicDarts extends Game {
 		else {
 			info.getTotalScores().set(
 					(int) player_num, 
-					(byte) (info.getTotalScores().get(player_num)+score)
+					(short) (info.getTotalScores().get(player_num)+score)
 			);
 			// check for winner
-			if(info.getTotalScores().get(score) == TARGET_SCORE) {
+			if(info.getTotalScores().get(player_num) == TARGET_SCORE) {
 				// set winner and return that the game is over
 				info.setWinner(info.getPlayers().get(player_num));
-				ret = GameEvent.PLAYERBUSTED;
+				ret = GameEvent.GAMEOVER;
 			}
 		}
 		

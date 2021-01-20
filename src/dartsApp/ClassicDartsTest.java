@@ -12,22 +12,29 @@ public class ClassicDartsTest {
 		while(game.getInfo().getWinner() == null) {
 			printGame(game);
 			System.out.printf("Enter Score for %s: ", game.getCurrentPlayer().getName());
-			if(game.addScore(sc.nextByte()) == Game.GameEvent.PLAYERBUSTED) {
+			if(game.addScore(sc.nextShort()) == Game.GameEvent.PLAYERBUSTED) {
 				System.out.println("BUSTED!");
 			}
 		}
 		
-		System.out.printf("%s won!\n", game.getInfo().getWinner().getName());
-		
+		printGame(game);
 		
 		sc.close();
 
 	}
 	
 	private static void printGame(Game g) {
-		System.out.println("Scores:");
+		System.out.println("\n\nScores:");
 		for(int i = 0; i < g.info.getPlayers().size(); i++) {
-			System.out.printf("%s: %d\n", g.getCurrentPlayer().getName(), g.info.getTotalScores().get(i));
+			System.out.printf(
+					"%s: %d (avg: %f)\n", 
+					g.getCurrentPlayer().getName(), 
+					g.info.getTotalScores().get(i),
+					(double)g.info.getTotalScores().get(i) / (double)g.info.getDartCounts().get(i)
+			);
+		}
+		if(g.getInfo().getWinner() != null) {
+			System.out.printf("%s won!\n", g.getInfo().getWinner().getName());
 		}
 	}
 

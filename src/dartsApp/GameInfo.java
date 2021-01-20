@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public class GameInfo {
 	private ArrayList<User> _players;
-	private ArrayList<Byte> total_scores = new ArrayList<Byte>();
+	private ArrayList<Short> total_scores = new ArrayList<Short>();
 	private ArrayList<Byte> dart_counts = new ArrayList<Byte>();
 	private User winner = null;
 
@@ -24,7 +24,7 @@ public class GameInfo {
 	public GameInfo(User[] players) {
 		_players = new ArrayList<User>(Arrays.asList(players));
 		for(int i = 0; i < _players.size(); i++) {
-			total_scores.add( (byte) 0 );
+			total_scores.add( (short) 0 );
 			dart_counts.add( (byte) 0 );
 		}
 	}
@@ -33,7 +33,7 @@ public class GameInfo {
 	 * Get the total scores for the players
 	 * @return Returns an ArrayList containing the player's total scores
 	 */
-	public ArrayList<Byte> getTotalScores() {
+	public ArrayList<Short> getTotalScores() {
 		return total_scores;
 	}
 
