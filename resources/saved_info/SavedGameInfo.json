@@ -1,0 +1,34 @@
+{"game types": [{"classic darts": [
+    {
+        "player_scores": [
+            301,
+            121
+        ],
+        "winner_id": -1,
+        "player_ids": [
+            -1,
+            -2
+        ],
+        "played to": 301,
+        "player_dart_counts": [
+            6,
+            3
+        ]
+    },
+    {
+        "player_scores": [
+            301,
+            296
+        ],
+        "winner_id": -1,
+        "player_ids": [
+            -1,
+            -2
+        ],
+        "played to": 301,
+        "player_dart_counts": [
+            15,
+            12
+        ]
+    }
+]}]}

@@ -32,7 +32,7 @@ public class ClassicDartsTest {
 		for(int i = 0; i < g.info.getPlayers().size(); i++) {
 			System.out.printf(
 					"%s: %d (avg: %f)\n", 
-					g.getCurrentPlayer().getName(), 
+					g.getInfo().getPlayers().get(i).getName(), 
 					g.info.getTotalScores().get(i),
 					(double)g.info.getTotalScores().get(i) / (double)g.info.getDartCounts().get(i)
 			);

@@ -3,7 +3,6 @@ package dartsApp;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -64,35 +63,39 @@ public class ClassicDarts extends Game {
 
 	@Override
 	public GameEvent addScore(short score) {
-		if(score < 0 || score > 180) {
-			return GameEvent.INVALIDSCORE;
-		}
 		GameEvent ret = null;
-		// check for bust
-		if(info.getTotalScores().get(player_num)+score > TARGET_SCORE) {
-			// return that bust occurred
-			ret = GameEvent.PLAYERBUSTED;
-		}
-		// otherwise add score
-		else {
-			info.getTotalScores().set(
-					(int) player_num, 
-					(short) (info.getTotalScores().get(player_num)+score)
-			);
-			// check for winner
-			if(info.getTotalScores().get(player_num) == TARGET_SCORE) {
-				// set winner and return that the game is over
-				info.setWinner(info.getPlayers().get(player_num));
-				ret = GameEvent.GAMEOVER;
-			}
-		}
 		
-		// update dart_count and turn nums
-		// TODO: naively always adds three darts
-		info.getDartCounts().set(
-				(int) player_num, 
-				(byte) (info.getDartCounts().get(player_num) + DARTS_PER_TURN)
-		);
+		// (naively) check for valid score
+		if(score < 0 || score > 180) {
+			ret = GameEvent.INVALIDSCORE;
+		}
+		else {
+			// check for bust
+			if(info.getTotalScores().get(player_num)+score > TARGET_SCORE) {
+				// return that bust occurred
+				ret = GameEvent.PLAYERBUSTED;
+			}
+			// otherwise add score
+			else {
+				info.getTotalScores().set(
+						(int) player_num, 
+						(short) (info.getTotalScores().get(player_num)+score)
+				);
+				// check for winner
+				if(info.getTotalScores().get(player_num) == TARGET_SCORE) {
+					// set winner and return that the game is over
+					info.setWinner(info.getPlayers().get(player_num));
+					ret = GameEvent.GAMEOVER;
+				}
+			}
+			
+			// update dart_count and turn nums
+			// TODO: naively always adds three darts
+			info.getDartCounts().set(
+					(int) player_num, 
+					(byte) (info.getDartCounts().get(player_num) + DARTS_PER_TURN)
+			);
+		}
 		// increment player
 		player_num++;
 		// check for turn increment
@@ -119,19 +122,20 @@ public class ClassicDarts extends Game {
 			catch (Exception ex) {}
 		}
 		try {
-			// get printwriter
-			// this method of file writing from https://stackoverflow.com/questions/57913106/append-to-jsonobject-write-object-to-file-using-org-json-for-java
-			PrintWriter writer = new PrintWriter(Game.SAVED_GAME_INFO_FILE_NAME);
-			
 			// get file as string
 			FileInputStream fis = new FileInputStream(info_file);
 			InputStreamReader isr = new InputStreamReader(fis);
 			BufferedReader br = new BufferedReader(isr);
 			StringBuffer strbuf = new StringBuffer();
-			String line;
-			while ((line = br.readLine()) != null) {
+			String line = br.readLine();
+			while (line != null) {
 				strbuf.append(line);
+				line = br.readLine();
 			}
+			
+			// get printwriter
+			// this method of file writing from https://stackoverflow.com/questions/57913106/append-to-jsonobject-write-object-to-file-using-org-json-for-java
+			PrintWriter writer = new PrintWriter(Game.SAVED_GAME_INFO_FILE_NAME);
 			
 			// get "game types" array
 			JSONObject json_arr = null;
@@ -141,9 +145,7 @@ public class ClassicDarts extends Game {
 					json_arr = new JSONObject(strbuf.toString());
 					game_types_arr = (JSONArray) json_arr.get(Game.BASE_ARRAY_NAME);
 				}
-				catch (Exception ex) {
-					System.out.printf("Error occured: %s\n", ex.getLocalizedMessage());
-	
+				catch (Exception ex) {	
 					// if the base array is not found, the file is either new or corrupted
 					// if its not new, it should be deleted and recreated to wipe it
 					info_file.delete();
