@@ -6,6 +6,13 @@ package dartsApp;
  *
  */
 public abstract class Game {
+	protected static final String 
+		SAVED_GAME_INFO_FILE_NAME = "SavedGameInfo.json",
+		BASE_ARRAY_NAME = "game types",
+		PLAYER_ID_ARRAY = "player_ids",
+		SCORE_ARRAY = "player_scores",
+		DART_COUNT_ARRAY = "player_dart_counts",
+		WINNER_ID = "winner_id";
 	protected GameInfo info;
 	protected byte
 		turn_num = 0,
@@ -41,14 +48,20 @@ public abstract class Game {
 	}
 	
 	/**
-	 * Adds the given dart score to the GameInfo if rules allow
+	 * Adds the given turn score to the GameInfo if rules allow
 	 * Also updates turn and dart number according to the game's rules
-	 * @param score The dart score to be added
+	 * @param score The turn score to be added
 	 * @return Returns whether additional action needs to be taken (game ended, player fouled, etc)
-	 * TODO: change boolean return to some sort of enum (GAMEOVER, PLAYERBUST, etc)
+	 * TODO: handle dart count in special cases
 	 */
 	public abstract GameEvent addScore(short score);
-
+	
+	/**
+	 * Saves the data of this game to a json/xml file
+	 * @return
+	 */
+	public abstract String saveData();
+	
 	/**
 	 * 
 	 * @return Returns the GameInfo associated with this Game

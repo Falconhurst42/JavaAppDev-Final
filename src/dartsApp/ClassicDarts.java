@@ -1,5 +1,14 @@
 package dartsApp;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  * A derived version of the Game class representing a classic game of darts
  * Players are aiming to reach a specific score (301 by default)
@@ -8,6 +17,9 @@ package dartsApp;
 public class ClassicDarts extends Game {
 	private final static byte DARTS_PER_TURN = 3;
 	private final static short DEF_TARGET_SCORE = 301;
+	private final static String 
+		JSON_ARRAY_NAME = "classic darts",
+		PLAYED_TO = "played to";
 	private final short TARGET_SCORE;
 
 	/**
@@ -88,6 +100,93 @@ public class ClassicDarts extends Game {
 		}		
 		
 		return ret;
+	}
+
+	@Override
+	public String saveData() {
+		// check for SavedGameInfo.json
+		File info_file = new File(Game.SAVED_GAME_INFO_FILE_NAME);
+		
+		// if the file doesn't exist, create it
+		if(!info_file.exists()) {
+			// TODO: create file
+		}
+		try {
+			// get file as string
+			FileInputStream fis = new FileInputStream(info_file);
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(isr);
+			StringBuffer strbuf = new StringBuffer();
+			String line;
+			while ((line = br.readLine()) != null) {
+				strbuf.append(line);
+			}
+			
+			// get "game types" array
+			JSONObject json_arr = null;
+			JSONArray game_types_arr = null;
+			try {
+				json_arr = new JSONObject(strbuf.toString());
+				game_types_arr = (JSONArray) json_arr.get(Game.BASE_ARRAY_NAME);
+			}
+			catch (Exception ex) {
+				System.out.printf("Error occured: %s\n", ex.getLocalizedMessage());
+				// TODO: handle when "game types" is not found
+				// prob just recreate file?
+			}
+			
+			// get "classic darts" array
+			JSONArray classic_darts_arr = null;
+			for(Object o: game_types_arr) {
+				// try getting arr
+				try {
+					classic_darts_arr = (JSONArray) ((JSONObject) o).get(JSON_ARRAY_NAME);
+				}
+				catch (Exception ex) {}
+			}
+			// if "classic darts" array doesn't exist, create it and find it
+			if(classic_darts_arr == null) {
+				// create it
+				JSONObject new_cda_obj = new JSONObject();
+				new_cda_obj.append(JSON_ARRAY_NAME, new JSONArray());
+				game_types_arr.put(new_cda_obj);
+				
+				// find again
+				for(Object o: game_types_arr) {
+					// try getting arr
+					try {
+						classic_darts_arr = (JSONArray) ((JSONObject) o).get(JSON_ARRAY_NAME);
+					}
+					catch (Exception ex) {}
+				}
+			}
+			
+			// add game's info to "classic darts" array
+			// create object
+			JSONObject game_info = new JSONObject();
+			// add ids
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			info.getPlayers().forEach(u -> ids.add(u.getID()));
+			game_info.append(Game.PLAYER_ID_ARRAY, ids.toArray());
+			// add scores
+			game_info.append(Game.SCORE_ARRAY, info.getTotalScores().toArray());
+			// add dart counts
+			game_info.append(Game.DART_COUNT_ARRAY, info.getDartCounts().toArray());
+			// add winner
+			game_info.append(Game.WINNER_ID, info.getWinner().getID());
+			// add target score
+			game_info.append(PLAYED_TO, TARGET_SCORE);
+			
+			// add object to array
+			classic_darts_arr.put(game_info);
+			
+			// TODO: update file
+		}
+		catch (Exception ex) {
+			System.out.printf("Error occured: %s\n", ex.getLocalizedMessage());
+		}
+		
+		return null;
 	}
 
 }
