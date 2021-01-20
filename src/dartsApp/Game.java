@@ -82,5 +82,9 @@ public abstract class Game {
 	public User getCurrentPlayer() {
 		return info.getPlayers().get(player_num);
 	}
+	
+	/**
+	 * Gets the given name of the player of the given number in the players array
+	 */
 
 }

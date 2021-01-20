@@ -17,6 +17,8 @@ public class ClassicDartsTest {
 			}
 		}
 		
+		System.out.printf("%s won!\n", game.getInfo().getWinner().getName());
+		
 		
 		sc.close();
 

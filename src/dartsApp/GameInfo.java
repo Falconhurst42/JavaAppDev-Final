@@ -23,6 +23,10 @@ public class GameInfo {
 	 */
 	public GameInfo(User[] players) {
 		_players = new ArrayList<User>(Arrays.asList(players));
+		for(int i = 0; i < _players.size(); i++) {
+			total_scores.add( (byte) 0 );
+			dart_counts.add( (byte) 0 );
+		}
 	}
 	
 	/**
