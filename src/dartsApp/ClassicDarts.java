@@ -3,7 +3,9 @@ package dartsApp;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -104,14 +106,23 @@ public class ClassicDarts extends Game {
 
 	@Override
 	public String saveData() {
-		// check for SavedGameInfo.json
+		// get File
 		File info_file = new File(Game.SAVED_GAME_INFO_FILE_NAME);
+		boolean new_file = false;
 		
 		// if the file doesn't exist, create it
 		if(!info_file.exists()) {
-			// TODO: create file
+			try {
+				info_file.createNewFile();
+				new_file = true;
+			}
+			catch (Exception ex) {}
 		}
 		try {
+			// get printwriter
+			// this method of file writing from https://stackoverflow.com/questions/57913106/append-to-jsonobject-write-object-to-file-using-org-json-for-java
+			PrintWriter writer = new PrintWriter(Game.SAVED_GAME_INFO_FILE_NAME);
+			
 			// get file as string
 			FileInputStream fis = new FileInputStream(info_file);
 			InputStreamReader isr = new InputStreamReader(fis);
@@ -125,14 +136,36 @@ public class ClassicDarts extends Game {
 			// get "game types" array
 			JSONObject json_arr = null;
 			JSONArray game_types_arr = null;
-			try {
-				json_arr = new JSONObject(strbuf.toString());
-				game_types_arr = (JSONArray) json_arr.get(Game.BASE_ARRAY_NAME);
+			if(!new_file) {
+				try {
+					json_arr = new JSONObject(strbuf.toString());
+					game_types_arr = (JSONArray) json_arr.get(Game.BASE_ARRAY_NAME);
+				}
+				catch (Exception ex) {
+					System.out.printf("Error occured: %s\n", ex.getLocalizedMessage());
+	
+					// if the base array is not found, the file is either new or corrupted
+					// if its not new, it should be deleted and recreated to wipe it
+					info_file.delete();
+					info_file.createNewFile();
+					
+					new_file = true;
+				}
 			}
-			catch (Exception ex) {
-				System.out.printf("Error occured: %s\n", ex.getLocalizedMessage());
-				// TODO: handle when "game types" is not found
-				// prob just recreate file?
+			
+			// if this is a new file, create "game types" array
+			if(new_file) {
+				// create new base object
+				json_arr = new JSONObject();
+				
+				// create new base array and add it to base object
+				game_types_arr = new JSONArray();
+				json_arr.put(Game.BASE_ARRAY_NAME, game_types_arr);
+				
+				// create and add "classic darts" object while we're at it
+				JSONObject new_classic_darts_obj = new JSONObject();
+				game_types_arr.put(new_classic_darts_obj);
+				new_classic_darts_obj.put(JSON_ARRAY_NAME, new JSONArray());
 			}
 			
 			// get "classic darts" array
@@ -167,20 +200,23 @@ public class ClassicDarts extends Game {
 			// add ids
 			ArrayList<Integer> ids = new ArrayList<Integer>();
 			info.getPlayers().forEach(u -> ids.add(u.getID()));
-			game_info.append(Game.PLAYER_ID_ARRAY, ids.toArray());
+			game_info.put(Game.PLAYER_ID_ARRAY, ids.toArray());
 			// add scores
-			game_info.append(Game.SCORE_ARRAY, info.getTotalScores().toArray());
+			game_info.put(Game.SCORE_ARRAY, info.getTotalScores().toArray());
 			// add dart counts
-			game_info.append(Game.DART_COUNT_ARRAY, info.getDartCounts().toArray());
+			game_info.put(Game.DART_COUNT_ARRAY, info.getDartCounts().toArray());
 			// add winner
-			game_info.append(Game.WINNER_ID, info.getWinner().getID());
+			game_info.put(Game.WINNER_ID, info.getWinner().getID());
 			// add target score
-			game_info.append(PLAYED_TO, TARGET_SCORE);
+			game_info.put(PLAYED_TO, TARGET_SCORE);
 			
 			// add object to array
 			classic_darts_arr.put(game_info);
 			
-			// TODO: update file
+			// update file?
+			writer.println(json_arr.toString(4));
+			writer.close();
+			br.close();
 		}
 		catch (Exception ex) {
 			System.out.printf("Error occured: %s\n", ex.getLocalizedMessage());

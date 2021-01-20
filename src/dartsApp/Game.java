@@ -7,7 +7,7 @@ package dartsApp;
  */
 public abstract class Game {
 	protected static final String 
-		SAVED_GAME_INFO_FILE_NAME = "SavedGameInfo.json",
+		SAVED_GAME_INFO_FILE_NAME = System.getProperty("user.dir") + "\\resources\\saved_info\\SavedGameInfo.json",
 		BASE_ARRAY_NAME = "game types",
 		PLAYER_ID_ARRAY = "player_ids",
 		SCORE_ARRAY = "player_scores",
