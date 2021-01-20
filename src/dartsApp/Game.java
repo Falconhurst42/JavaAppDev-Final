@@ -74,5 +74,13 @@ public abstract class Game {
 	public byte getPlayerNum() {
 		return player_num;
 	}
+	
+	/**
+	 * Get the player whose turn it is
+	 * @return REturns the player who is up next
+	 */
+	public User getCurrentPlayer() {
+		return info.getPlayers().get(player_num);
+	}
 
 }
