@@ -266,4 +266,5 @@ public abstract class GameDataReader {
 			System.out.printf("Error occured writing file: %s\n", ex.getLocalizedMessage());
 		}
 	}
+
 }
