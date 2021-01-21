@@ -2,7 +2,7 @@ package dartsApp;
 
 import java.util.ArrayList;
 
-public class DartViewModel {
+public class DartViewModel {	
 	private Game _game;
 	
 	/**

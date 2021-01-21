@@ -3,6 +3,8 @@ package dartsApp;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.json.JSONObject;
+
 /**
  * Class to store the core info of a Game
  * This info is split from the rest of the Game class so it can be easily saved separately when the Game is finished
@@ -70,4 +72,7 @@ public class GameInfo {
 		this.winner = winner;
 	}
 
+	/*public static GameInfo convertJSON(JSONObject jo) {
+		// TODO: do when user data saving is done
+	}*/
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public abstract class GameDataReader {
+public abstract class SavedDataReader {
 
 	protected static final String 
 		SAVED_GAME_INFO_FILE_NAME = "resources\\saved_info\\SavedGameInfo.json",
@@ -158,7 +158,7 @@ public abstract class GameDataReader {
 	 * @param game_type The class of the Game variation in question
 	 * @return Returns the JSONArray containing saved info about the given Game type
 	 */
-	protected static JSONArray readSavedDataArray(Class<? extends Game> game_type) {
+	private static JSONArray readSavedDataArray(Class<? extends Game> game_type) {
 		// get JSONArray String
 		String game_type_array_name = gameTypeToJSONArrayString(game_type);
 		if(game_type_array_name == null) {
@@ -267,4 +267,33 @@ public abstract class GameDataReader {
 		}
 	}
 
+	/**
+	 * Reads all the saved instances of the the given game type from memory into GameInfo objects
+	 * @param game_type The class of the game type in question
+	 * @return Returns an ArrayList of GameInfo objects corresponding to the saved games
+	 */
+	public static ArrayList<GameInfo> getGameInfosForType(Class<? extends Game> game_type) {
+		// get JSONArray of data
+		JSONArray json_arr = readSavedDataArray(game_type);
+		
+		// create returning array
+		ArrayList<GameInfo> ret = new ArrayList<GameInfo>();
+		
+		// convert to GameInfo objects
+		for(Object o: json_arr) {
+			JSONObject jo = (JSONObject) o;
+		}
+		
+		// return
+		return ret;
+	}
+
+	/**
+	 * Saves the given JSONObject as user data to the saved data file
+	 * If a user with the given id already exists, it replaces that user
+	 * @param data JSONObject to be saved
+	 */
+	public static void saveUserData(JSONObject data) {
+		
+	}
 }

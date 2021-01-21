@@ -113,17 +113,17 @@ public class ClassicDarts extends Game {
 		// add ids
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		info.getPlayers().forEach(u -> ids.add(u.getID()));
-		game_info.put(GameDataReader.PLAYER_ID_ARRAY, ids.toArray());
+		game_info.put(SavedDataReader.PLAYER_ID_ARRAY, ids.toArray());
 		// add scores
-		game_info.put(GameDataReader.SCORE_ARRAY, info.getTotalScores().toArray());
+		game_info.put(SavedDataReader.SCORE_ARRAY, info.getTotalScores().toArray());
 		// add dart counts
-		game_info.put(GameDataReader.DART_COUNT_ARRAY, info.getDartCounts().toArray());
+		game_info.put(SavedDataReader.DART_COUNT_ARRAY, info.getDartCounts().toArray());
 		// add winner
-		game_info.put(GameDataReader.WINNER_ID, info.getWinner().getID());
+		game_info.put(SavedDataReader.WINNER_ID, info.getWinner().getID());
 		// add target score
 		game_info.put(PLAYED_TO, TARGET_SCORE);
 		
-		GameDataReader.appendGameData(game_info, this.getClass());
+		SavedDataReader.appendGameData(game_info, this.getClass());
 		
 		/*// get "classic darts" array
 		JSONArray data_arr = GameDataReader.readSavedDataArray(this.getClass());
