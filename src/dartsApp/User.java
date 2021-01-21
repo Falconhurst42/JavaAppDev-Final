@@ -1,5 +1,7 @@
 package dartsApp;
 
+import org.json.JSONObject;
+
 /**
  * Class to represent players in the darts application
  * @author ethan
@@ -36,6 +38,16 @@ public class User {
 	}
 
 	/**
+	 * Creates a User with the given id and name
+	 * @param id Id to be
+	 * @param name Name to be
+	 */
+	public User(int id, String name) {
+		_id = id;
+		setName(name);
+	}
+	
+	/**
 	 * 
 	 * @return Returns the User's id
 	 */
@@ -67,4 +79,28 @@ public class User {
 		return _id == -1;
 	}
 
+	/**
+	 * Saves this user's data to the saved data file
+	 */
+	public void saveData() {
+		// don't save temp users
+		if(!isTemporary()) {
+			JSONObject user_info = new JSONObject();
+			user_info.put(SavedDataReader.USER_ID, _id);
+			user_info.put(SavedDataReader.USER_NAME, _name);
+			
+			SavedDataReader.saveUserData(user_info);
+		}
+	}
+
+	public static User readUser(int id) {
+		// check for temp user
+		if(id < 0) {
+			return new User(id);
+		}
+		// otherwise search for user
+		else {
+			return null;
+		}
+	}
 }

@@ -113,157 +113,17 @@ public class ClassicDarts extends Game {
 		// add ids
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		info.getPlayers().forEach(u -> ids.add(u.getID()));
-		game_info.put(SavedDataReader.PLAYER_ID_ARRAY, ids.toArray());
+		game_info.put(SavedDataReader.GAME_PLAYER_ID_ARRAY, ids.toArray());
 		// add scores
-		game_info.put(SavedDataReader.SCORE_ARRAY, info.getTotalScores().toArray());
+		game_info.put(SavedDataReader.GAME_SCORE_ARRAY, info.getTotalScores().toArray());
 		// add dart counts
-		game_info.put(SavedDataReader.DART_COUNT_ARRAY, info.getDartCounts().toArray());
+		game_info.put(SavedDataReader.GAME_DART_COUNT_ARRAY, info.getDartCounts().toArray());
 		// add winner
-		game_info.put(SavedDataReader.WINNER_ID, info.getWinner().getID());
+		game_info.put(SavedDataReader.GAME_WINNER_ID, info.getWinner().getID());
 		// add target score
 		game_info.put(PLAYED_TO, TARGET_SCORE);
 		
 		SavedDataReader.appendGameData(game_info, this.getClass());
-		
-		/*// get "classic darts" array
-		JSONArray data_arr = GameDataReader.readSavedDataArray(this.getClass());
-		
-		// add game's info to "classic darts" array
-		// create object
-		JSONObject game_info = new JSONObject();
-		// add ids
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		info.getPlayers().forEach(u -> ids.add(u.getID()));
-		game_info.put(GameDataReader.PLAYER_ID_ARRAY, ids.toArray());
-		// add scores
-		game_info.put(GameDataReader.SCORE_ARRAY, info.getTotalScores().toArray());
-		// add dart counts
-		game_info.put(GameDataReader.DART_COUNT_ARRAY, info.getDartCounts().toArray());
-		// add winner
-		game_info.put(GameDataReader.WINNER_ID, info.getWinner().getID());
-		// add target score
-		game_info.put(PLAYED_TO, TARGET_SCORE);
-		
-		// add object to array
-		data_arr.put(game_info);
-		
-		// write data
-		GameDataReader.writeSavedDataArray(data_arr, this.getClass());*/
-		
-		/*// get File
-		File info_file = new File(GameDataReader.SAVED_GAME_INFO_FILE_NAME);
-		boolean new_file = false;
-		
-		// if the file doesn't exist, create it
-		if(!info_file.exists()) {
-			try {
-				info_file.createNewFile();
-				new_file = true;
-			}
-			catch (Exception ex) {}
-		}
-		try {
-			// get file as string
-			FileInputStream fis = new FileInputStream(info_file);
-			InputStreamReader isr = new InputStreamReader(fis);
-			BufferedReader br = new BufferedReader(isr);
-			StringBuffer strbuf = new StringBuffer();
-			String line = br.readLine();
-			while (line != null) {
-				strbuf.append(line);
-				line = br.readLine();
-			}
-			
-			// get printwriter
-			// this method of file writing from https://stackoverflow.com/questions/57913106/append-to-jsonobject-write-object-to-file-using-org-json-for-java
-			PrintWriter writer = new PrintWriter(GameDataReader.SAVED_GAME_INFO_FILE_NAME);
-			
-			// get "game types" array
-			JSONObject json_arr = null;
-			JSONArray game_types_arr = null;
-			if(!new_file) {
-				try {
-					json_arr = new JSONObject(strbuf.toString());
-					game_types_arr = (JSONArray) json_arr.get(GameDataReader.BASE_ARRAY_NAME);
-				}
-				catch (Exception ex) {	
-					// if the base array is not found, the file is either new or corrupted
-					// if its not new, it should be deleted and recreated to wipe it
-					info_file.delete();
-					info_file.createNewFile();
-					
-					new_file = true;
-				}
-			}
-			
-			// if this is a new file, create "game types" array
-			if(new_file) {
-				// create new base object
-				json_arr = new JSONObject();
-				
-				// create new base array and add it to base object
-				game_types_arr = new JSONArray();
-				json_arr.put(GameDataReader.BASE_ARRAY_NAME, game_types_arr);
-				
-				// create and add "classic darts" object while we're at it
-				JSONObject new_classic_darts_obj = new JSONObject();
-				game_types_arr.put(new_classic_darts_obj);
-				new_classic_darts_obj.put(JSON_ARRAY_NAME, new JSONArray());
-			}
-			
-			// get "classic darts" array
-			JSONArray classic_darts_arr = null;
-			for(Object o: game_types_arr) {
-				// try getting arr
-				try {
-					classic_darts_arr = (JSONArray) ((JSONObject) o).get(JSON_ARRAY_NAME);
-				}
-				catch (Exception ex) {}
-			}
-			// if "classic darts" array doesn't exist, create it and find it
-			if(classic_darts_arr == null) {
-				// create it
-				JSONObject new_cda_obj = new JSONObject();
-				new_cda_obj.append(JSON_ARRAY_NAME, new JSONArray());
-				game_types_arr.put(new_cda_obj);
-				
-				// find again
-				for(Object o: game_types_arr) {
-					// try getting arr
-					try {
-						classic_darts_arr = (JSONArray) ((JSONObject) o).get(JSON_ARRAY_NAME);
-					}
-					catch (Exception ex) {}
-				}
-			}
-			
-			// add game's info to "classic darts" array
-			// create object
-			JSONObject game_info = new JSONObject();
-			// add ids
-			ArrayList<Integer> ids = new ArrayList<Integer>();
-			info.getPlayers().forEach(u -> ids.add(u.getID()));
-			game_info.put(GameDataReader.PLAYER_ID_ARRAY, ids.toArray());
-			// add scores
-			game_info.put(GameDataReader.SCORE_ARRAY, info.getTotalScores().toArray());
-			// add dart counts
-			game_info.put(GameDataReader.DART_COUNT_ARRAY, info.getDartCounts().toArray());
-			// add winner
-			game_info.put(GameDataReader.WINNER_ID, info.getWinner().getID());
-			// add target score
-			game_info.put(PLAYED_TO, TARGET_SCORE);
-			
-			// add object to array
-			classic_darts_arr.put(game_info);
-			
-			// update file?
-			writer.println(json_arr.toString(4));
-			writer.close();
-			br.close();
-		}
-		catch (Exception ex) {
-			System.out.printf("Error occured: %s\n", ex.getLocalizedMessage());
-		}*/
 	}
 
 }
