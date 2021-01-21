@@ -2,7 +2,7 @@
     {
         "player_scores": [
             301,
-            121
+            69
         ],
         "winner_id": -1,
         "player_ids": [
@@ -18,7 +18,7 @@
     {
         "player_scores": [
             301,
-            296
+            121
         ],
         "winner_id": -1,
         "player_ids": [
@@ -27,8 +27,8 @@
         ],
         "played to": 301,
         "player_dart_counts": [
-            15,
-            12
+            6,
+            3
         ]
     }
 ]}]}

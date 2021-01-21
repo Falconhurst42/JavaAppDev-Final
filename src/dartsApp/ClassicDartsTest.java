@@ -5,9 +5,10 @@ import java.util.Scanner;
 public class ClassicDartsTest {
 
 	public static void main(String[] args) {
-		System.out.println(Game.SAVED_GAME_INFO_FILE_NAME);
 		
 		Scanner sc = new Scanner(System.in);
+		
+		
 		
 		ClassicDarts game = new ClassicDarts((byte) 2);
 		

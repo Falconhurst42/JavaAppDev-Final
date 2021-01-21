@@ -1,18 +1,22 @@
 package dartsApp;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  * Abstract class to represent generic games of darts
  * @author ethan
  *
  */
 public abstract class Game {
-	protected static final String 
-		SAVED_GAME_INFO_FILE_NAME = "resources\\saved_info\\SavedGameInfo.json",
-		BASE_ARRAY_NAME = "game types",
-		PLAYER_ID_ARRAY = "player_ids",
-		SCORE_ARRAY = "player_scores",
-		DART_COUNT_ARRAY = "player_dart_counts",
-		WINNER_ID = "winner_id";
+	public final static String JSON_ARRAY_NAME = "game data";
 	protected GameInfo info;
 	protected byte
 		turn_num = 0,
@@ -57,10 +61,10 @@ public abstract class Game {
 	public abstract GameEvent addScore(short score);
 	
 	/**
-	 * Saves the data of this game to a json/xml file
+	 * Saves the data of this game to the json file
 	 * @return
 	 */
-	public abstract String saveData();
+	public abstract void saveData();	
 	
 	/**
 	 * 
