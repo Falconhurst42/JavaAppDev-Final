@@ -23,7 +23,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DartView {
+public class DartView extends SavedDataReader{
 
 	private JFrame frmDartGame;
 	private JButton newGame;
@@ -38,16 +38,17 @@ public class DartView {
 	//used a dataModel to reset table 
 	//found at https://stackoverflow.com/questions/3879610/how-to-clear-contents-of-a-jtable/3880040
 	private DefaultTableModel Model;
-
 	
 	private String tableCols[] = { "Name", "Score", "Avg. Score" };
-	private String data[][] = {{"Gerald","100",".25"}, {"Jake","300", "45"}, {" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "}};
+	private String data[][] = {{" "," "," "}, {" "," ", " "}, {" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "}};
 	
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
