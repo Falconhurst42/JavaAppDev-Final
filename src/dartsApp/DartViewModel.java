@@ -2,7 +2,13 @@ package dartsApp;
 
 import java.util.ArrayList;
 
-public class DartViewModel {	
+/**
+ * Abstract class with static functions for reading data from a json file
+ * TODO: really this is should be a class which stores a file location and the functions then aren't static
+ * @author ethan
+ *
+ */
+public abstract class DartViewModel {	
 	private Game _game;
 	
 	/**

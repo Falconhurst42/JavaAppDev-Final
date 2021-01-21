@@ -2,6 +2,7 @@ package dartsApp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.json.JSONObject;
 
@@ -29,6 +30,24 @@ public class GameInfo {
 			total_scores.add( (short) 0 );
 			dart_counts.add( (byte) 0 );
 		}
+	}
+	
+	/**
+	 * Initializes a GameInfo object with all parameters given (used for reading GameInfo from a file)
+	 * @param players Array of players
+	 * @param scores Array of scores
+	 * @param dart_counts Array of dart counts 
+	 * @param winner Winning player
+	 */
+	public GameInfo(User[] players, Short[] scores, Byte[] dart_counts, User winner) {
+		// copy data
+		_players = new ArrayList<User>();
+		Collections.addAll(_players, players);
+		total_scores = new ArrayList<Short>();
+		Collections.addAll(total_scores, scores);
+		this.dart_counts = new ArrayList<Byte>();
+		Collections.addAll(this.dart_counts, dart_counts);
+		this.winner = winner;
 	}
 	
 	/**

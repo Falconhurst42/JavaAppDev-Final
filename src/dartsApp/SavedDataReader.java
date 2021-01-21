@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -222,6 +223,9 @@ public abstract class SavedDataReader {
 		 * @return Returns an ArrayList of GameInfo objects corresponding to the saved games
 		 */
 		public static ArrayList<GameInfo> getGameInfosForType(Class<? extends Game> game_type) {
+			// get users
+			ArrayList<User> users = getUsers();
+			
 			// get JSONArray of data
 			JSONArray json_arr = readSavedDataArray(game_type);
 			
@@ -231,6 +235,49 @@ public abstract class SavedDataReader {
 			// convert to GameInfo objects
 			for(Object o: json_arr) {
 				JSONObject jo = (JSONObject) o;
+				
+				// get user ids
+				ArrayList<Integer> user_ids = new ArrayList<Integer>();
+				ArrayList<User> temp_users = new ArrayList<User>();
+				jo.getJSONArray(GAME_PLAYER_ID_ARRAY).toList().forEach((obj) -> user_ids.add((Integer) obj));
+				// add winner to user ids
+				user_ids.add(jo.getInt(GAME_WINNER_ID));
+				// get users
+				for(Integer id: user_ids) {
+					// create temp users
+					if(id < 0) {
+						temp_users.add(new User(id));
+					} 
+					// search for non-temp users
+					else {
+						User user = null;
+						for(User u: users) {
+							if(u.getID() == id) {
+								user = u;
+								break;
+							}
+						}
+						// if user is found, add them
+						if(user != null) {
+							temp_users.add(user);
+						} 
+						// otherwise create a generic user with the same id
+						// and save them to the file
+						else {
+							User new_user = new User(id, String.format("User #%d", id));
+							temp_users.add(new_user);
+							new_user.saveData();
+							users.add(new_user);
+						}
+					}
+				}
+				
+				// create GameInfo
+				ret.add(new GameInfo(
+						(User[]) users.subList(0, users.size()-1).toArray(), 
+						(Short[]) jo.getJSONArray(GAME_SCORE_ARRAY).toList().toArray(),
+						(Byte[]) jo.getJSONArray(GAME_DART_COUNT_ARRAY).toList().toArray(),
+						users.get(users.size()-1) ));
 			}
 			
 			// return
