@@ -1,13 +1,6 @@
 package dartsApp;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -19,7 +12,7 @@ public class ClassicDarts extends Game {
 	private final static byte DARTS_PER_TURN = 3;
 	private final static short DEF_TARGET_SCORE = 301;
 	public final static String JSON_ARRAY_NAME = "classic darts";
-	private final static String PLAYED_TO = "played to";
+	private final static String GAME_PLAYED_TO = "played to";
 	private final short TARGET_SCORE;
 
 	/**
@@ -121,7 +114,7 @@ public class ClassicDarts extends Game {
 		// add winner
 		game_info.put(SavedDataReader.GAME_WINNER_ID, info.getWinner().getID());
 		// add target score
-		game_info.put(PLAYED_TO, TARGET_SCORE);
+		game_info.put(GAME_PLAYED_TO, TARGET_SCORE);
 		
 		SavedDataReader.appendGameData(game_info, this.getClass());
 	}
