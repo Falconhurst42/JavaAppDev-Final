@@ -1,6 +1,5 @@
 package dartsApp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -8,6 +7,11 @@ import org.json.JSONObject;
 public class ClassicDartsInfo extends GameInfo {
 	private final short TARGET_SCORE;
 
+	/**
+	 * Creates a new ClassicDartsInfo which is a copy of the given GameInfo plus the given target score
+	 * @param gi The GameInfo to copy from
+	 * @param T_S The target score of the CDI
+	 */
 	public ClassicDartsInfo(GameInfo gi, short T_S) {
 		super(new User[] {});		
 		copyGameInfo(gi);

@@ -24,10 +24,6 @@ public class ClassicDartsTest {
 			// save data
 			game.endGame();
 		}
-		
-		ArrayList<GameInfo> gis = SavedDataReader.getGameInfosForType(ClassicDarts.class);
-		
-		return;
 	}
 	
 	private static void printGame(Game g) {
