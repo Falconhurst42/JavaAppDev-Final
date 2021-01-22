@@ -60,7 +60,21 @@ public abstract class Game {
 	
 	public void endGame() {
 		ArrayList<User> users = getInfo().getPlayers();
-		for(User u: users) {
+		
+		for(int i = 0; i < users.size(); i++) {
+			// get user
+			User u = users.get(i);
+			
+			// update win/loss
+			u.addResult(u == getInfo().getWinner());
+			
+			// update dart_count + average
+			u.updateStats(
+					getInfo().getDartCounts().get(i), 
+					((double) getInfo().getTotalScores().get(i)) / ((double) getInfo().getDartCounts().get(i))
+			);
+			
+			// save result
 			u.saveData();
 		}
 		this.saveData();

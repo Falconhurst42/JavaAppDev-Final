@@ -29,7 +29,11 @@ public abstract class SavedDataReader {
 		GAME_DART_COUNT_ARRAY = "player_dart_counts",
 		GAME_WINNER_ID = "winner_id",
 		USER_ID = "id",
-		USER_NAME = "name";  
+		USER_NAME = "name",
+		USER_WINS = "wins",
+		USER_LOSSES = "losses",
+		USER_DART_COUNT = "dart_count",
+		USER_AVERAGE = "average";  
 	
 	// PRIVATE READERS
 		/**
@@ -273,7 +277,11 @@ public abstract class SavedDataReader {
 						// otherwise create a generic user with the same id
 						// and save them to the file
 						else {
-							User new_user = new User(id, String.format("User #%d", id));
+							User new_user = new User(
+									id, 
+									String.format("User #%d", id),
+									0, 0, 0, 0
+							);
 							temp_users.add(new_user);
 							new_user.saveData();
 							users.add(new_user);
@@ -310,7 +318,18 @@ public abstract class SavedDataReader {
 			// create returning arraylist
 			ArrayList<User> users = new ArrayList<User>();
 			
-			user_arr.forEach((o) -> users.add(new User(((JSONObject) o).getInt(USER_ID), ((JSONObject) o).getString(USER_NAME))));
+			user_arr.forEach(
+					(o) -> users.add(
+							new User(
+									((JSONObject) o).getInt(USER_ID), 
+									((JSONObject) o).getString(USER_NAME),
+									((JSONObject) o).getInt(USER_WINS), 
+									((JSONObject) o).getInt(USER_LOSSES), 
+									((JSONObject) o).getInt(USER_DART_COUNT), 
+									((JSONObject) o).getDouble(USER_AVERAGE)
+							)
+					)
+			);
 			
 			return users;
 		}
