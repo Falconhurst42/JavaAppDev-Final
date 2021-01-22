@@ -2,40 +2,8 @@
     "game types": [{"classic darts": [
         {
             "player_scores": [
-                242,
-                301
-            ],
-            "winner_id": -2,
-            "player_ids": [
-                -1,
-                -2
-            ],
-            "played to": 301,
-            "player_dart_counts": [
-                6,
-                6
-            ]
-        },
-        {
-            "player_scores": [
                 301,
-                69
-            ],
-            "winner_id": -1,
-            "player_ids": [
-                -1,
-                -2
-            ],
-            "played to": 301,
-            "player_dart_counts": [
-                6,
-                3
-            ]
-        },
-        {
-            "player_scores": [
-                301,
-                267
+                298
             ],
             "winner_id": 0,
             "player_ids": [
@@ -44,8 +12,8 @@
             ],
             "played to": 301,
             "player_dart_counts": [
-                54,
-                51
+                75,
+                72
             ]
         },
         {
@@ -60,40 +28,24 @@
             ],
             "played to": 301,
             "player_dart_counts": [
-                -82,
-                -85
+                141,
+                138
             ]
         },
         {
             "player_scores": [
-                297,
-                301
+                301,
+                288
             ],
-            "winner_id": 1,
+            "winner_id": 0,
             "player_ids": [
                 0,
                 1
             ],
             "played to": 301,
             "player_dart_counts": [
-                105,
-                105
-            ]
-        },
-        {
-            "player_scores": [
-                299,
-                301
-            ],
-            "winner_id": 1,
-            "player_ids": [
-                0,
-                1
-            ],
-            "played to": 301,
-            "player_dart_counts": [
-                78,
-                78
+                45,
+                42
             ]
         },
         {
@@ -108,8 +60,24 @@
             ],
             "played to": 301,
             "player_dart_counts": [
-                -115,
-                -115
+                66,
+                66
+            ]
+        },
+        {
+            "player_scores": [
+                294,
+                301
+            ],
+            "winner_id": 1,
+            "player_ids": [
+                0,
+                1
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                60,
+                60
             ]
         }
     ]}],

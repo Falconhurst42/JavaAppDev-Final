@@ -3,6 +3,9 @@ package dartsApp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+
+import org.json.JSONObject;
 
 /**
  * Class to store the core info of a Game
@@ -15,7 +18,7 @@ import java.util.Collections;
 public class GameInfo {
 	private ArrayList<User> _players;
 	private ArrayList<Short> total_scores = new ArrayList<Short>();
-	private ArrayList<Byte> dart_counts = new ArrayList<Byte>();
+	private ArrayList<Short> dart_counts = new ArrayList<Short>();
 	private User winner = null;
 
 	/**
@@ -26,7 +29,7 @@ public class GameInfo {
 		_players = new ArrayList<User>(Arrays.asList(players));
 		for(int i = 0; i < _players.size(); i++) {
 			total_scores.add( (short) 0 );
-			dart_counts.add( (byte) 0 );
+			dart_counts.add( (short) 0 );
 		}
 	}
 	
@@ -37,15 +40,36 @@ public class GameInfo {
 	 * @param dart_counts Array of dart counts 
 	 * @param winner Winning player
 	 */
-	public GameInfo(User[] players, Short[] scores, Byte[] dart_counts, User winner) {
+	public GameInfo(User[] players, Short[] scores, Short[] dart_counts, User winner) {
 		// copy data
 		_players = new ArrayList<User>();
 		Collections.addAll(_players, players);
 		total_scores = new ArrayList<Short>();
 		Collections.addAll(total_scores, scores);
-		this.dart_counts = new ArrayList<Byte>();
+		this.dart_counts = new ArrayList<Short>();
 		Collections.addAll(this.dart_counts, dart_counts);
 		this.winner = winner;
+	}
+	
+	protected void copyGameInfo(GameInfo gi) {
+		_players = gi.getPlayers();
+		total_scores = gi.getTotalScores();
+		dart_counts = gi.getDartCounts();
+		winner = gi.getWinner();
+	}
+	
+	/**
+	 * Converts a JSONObject and a users array into a GameInfo Object and returns it
+	 * @param jo JSONObject containing the game's info
+	 * @param players A List of the Users in the game
+	 * @return Returns a new GameInfo object 
+	 */
+	public static GameInfo convertJSON(JSONObject jo, List<User> players) {
+		return new GameInfo(
+				(User[]) players.subList(0, players.size()-1).toArray(), 
+				(Short[]) jo.getJSONArray(SavedDataReader.GAME_SCORE_ARRAY).toList().toArray(),
+				(Short[]) jo.getJSONArray(SavedDataReader.GAME_DART_COUNT_ARRAY).toList().toArray(),
+				players.get(players.size()-1));
 	}
 	
 	/**
@@ -60,7 +84,7 @@ public class GameInfo {
 	 * Get the dart scores for the players
 	 * @return Returns an ArrayList containing the player's dart counts
 	 */
-	public ArrayList<Byte> getDartCounts() {
+	public ArrayList<Short> getDartCounts() {
 		return dart_counts;
 	}
 

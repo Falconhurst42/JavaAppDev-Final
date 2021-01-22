@@ -85,7 +85,7 @@ public class ClassicDarts extends Game {
 			// TODO: naively always adds three darts
 			info.getDartCounts().set(
 					(int) player_num, 
-					(byte) (info.getDartCounts().get(player_num) + DARTS_PER_TURN)
+					(short) (info.getDartCounts().get(player_num) + DARTS_PER_TURN)
 			);
 		}
 		// increment player

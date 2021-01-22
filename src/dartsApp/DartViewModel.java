@@ -26,6 +26,11 @@ public abstract class DartViewModel {
 		_game = game;
 	}
 	
+	public void endGame() {
+		_game.endGame();
+		_game = new ClassicDarts((byte) 2);
+	}
+	
 	/**
 	 * inputs the given score to the game object and returns the code
 	 * @param score The score to be input
@@ -87,7 +92,7 @@ public abstract class DartViewModel {
 	 * Gets the dart counts of the players of this game
 	 * @return Returns the player's dart counts in the same order as the players array
 	 */
-	public ArrayList<Byte> getDartCounts() {
+	public ArrayList<Short> getDartCounts() {
 		return _game.getInfo().getDartCounts();
 	}
 	
@@ -97,7 +102,7 @@ public abstract class DartViewModel {
 	 */
 	public ArrayList<Double> getAverages() {
 		// get data
-		ArrayList<Byte> dart_counts = getDartCounts();
+		ArrayList<Short> dart_counts = getDartCounts();
 		ArrayList<Short> scores = getScores();
 		// create averages array
 		ArrayList<Double> averages = new ArrayList<Double>();

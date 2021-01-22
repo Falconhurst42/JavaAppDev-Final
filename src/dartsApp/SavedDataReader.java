@@ -272,11 +272,8 @@ public abstract class SavedDataReader {
 				}
 				
 				// create GameInfo
-				ret.add(new GameInfo(
-						(User[]) users.subList(0, users.size()-1).toArray(), 
-						(Short[]) jo.getJSONArray(GAME_SCORE_ARRAY).toList().toArray(),
-						(Byte[]) jo.getJSONArray(GAME_DART_COUNT_ARRAY).toList().toArray(),
-						users.get(users.size()-1) ));
+				// TODO: replace with call to GameInfo.convertJSONObject
+				ret.add(GameInfo.convertJSON(jo, users));
 			}
 			
 			// return
