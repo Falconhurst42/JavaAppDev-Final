@@ -3,12 +3,11 @@ package dartsApp;
 import java.util.ArrayList;
 
 /**
- * Abstract class with static functions for reading data from a json file
- * TODO: really this is should be a class which stores a file location and the functions then aren't static
+ * ViewModel class to manage a Game object for a DartView
  * @author ethan
  *
  */
-public abstract class DartViewModel {	
+public class DartViewModel {	
 	private Game _game;
 	
 	/**

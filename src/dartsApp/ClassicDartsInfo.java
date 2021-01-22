@@ -1,5 +1,6 @@
 package dartsApp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -8,7 +9,7 @@ public class ClassicDartsInfo extends GameInfo {
 	private final short TARGET_SCORE;
 
 	public ClassicDartsInfo(GameInfo gi, short T_S) {
-		super((User[]) gi.getPlayers().toArray());
+		super(new User[] {});		
 		copyGameInfo(gi);
 		TARGET_SCORE = T_S;
 	}
