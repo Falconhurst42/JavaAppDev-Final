@@ -1,10 +1,12 @@
 package dartsApp;
 
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -282,6 +284,13 @@ public abstract class SavedDataReader {
 				// create GameInfo
 				// TODO: get correct convertJSON function
 				ret.add(GameInfo.convertJSON(jo, users));
+				/*try {
+					Class<? extends Game> cl = (Class<? extends Game>) game_type.getField("GAME_INFO_TYPE").get(null);
+					Method m = cl.getMethod("convertJSON", new Class[] {JSONObject.class, List.class});
+					GameInfo got_gi = (GameInfo) m.invoke(null, new Object[] {jo, users});
+					
+					ret.add(got_gi);
+				} catch (Exception ex) { System.out.printf("Error occured calling alternate convertJSON(): %s", ex.getLocalizedMessage()); }*/
 			}
 			
 			// return

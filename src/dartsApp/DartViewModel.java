@@ -9,12 +9,14 @@ import java.util.ArrayList;
  */
 public class DartViewModel {	
 	private Game _game;
+	private ArrayList<User> users;
 	
 	/**
 	 * Default constructor, sets Game to a two-player ClassicDarts game
 	 */
 	public DartViewModel() {
 		_game = new ClassicDarts((byte) 2);
+		init();
 	}
 	
 	/**
@@ -23,6 +25,11 @@ public class DartViewModel {
 	 */
 	public DartViewModel(Game game) {
 		_game = game;
+		init();
+	}
+	
+	private void init() {
+		users = SavedDataReader.getUsers();
 	}
 	
 	/**
@@ -130,5 +137,13 @@ public class DartViewModel {
 	 */
 	public boolean hasWinner() {
 		return _game.getInfo().getWinner() == null;
+	}
+
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+
+	public void addUser(User user) {
+		users.add(user);
 	}
 }
