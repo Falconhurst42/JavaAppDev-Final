@@ -25,7 +25,7 @@ public abstract class SavedDataReader {
 		USER_NAME = "name";  
 	
 	// PRIVATE READERS
-	/**
+		/**
 		 * Returns the value of the JSON_ARRAY_NAME attribute of the given game type class 
 		 * @param game_type The class of the Game variation in question
 		 * @return Returns the value of the JSON_ARRAY_NAME attribute

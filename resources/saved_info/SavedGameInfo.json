@@ -1,34 +1,126 @@
-{"game types": [{"classic darts": [
-    {
-        "player_scores": [
-            301,
-            69
-        ],
-        "winner_id": -1,
-        "player_ids": [
-            -1,
-            -2
-        ],
-        "played to": 301,
-        "player_dart_counts": [
-            6,
-            3
-        ]
-    },
-    {
-        "player_scores": [
-            301,
-            121
-        ],
-        "winner_id": -1,
-        "player_ids": [
-            -1,
-            -2
-        ],
-        "played to": 301,
-        "player_dart_counts": [
-            6,
-            3
-        ]
-    }
-]}]}
+{
+    "game types": [{"classic darts": [
+        {
+            "player_scores": [
+                242,
+                301
+            ],
+            "winner_id": -2,
+            "player_ids": [
+                -1,
+                -2
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                6,
+                6
+            ]
+        },
+        {
+            "player_scores": [
+                301,
+                69
+            ],
+            "winner_id": -1,
+            "player_ids": [
+                -1,
+                -2
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                6,
+                3
+            ]
+        },
+        {
+            "player_scores": [
+                301,
+                267
+            ],
+            "winner_id": 0,
+            "player_ids": [
+                0,
+                1
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                54,
+                51
+            ]
+        },
+        {
+            "player_scores": [
+                301,
+                299
+            ],
+            "winner_id": 0,
+            "player_ids": [
+                0,
+                1
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                -82,
+                -85
+            ]
+        },
+        {
+            "player_scores": [
+                297,
+                301
+            ],
+            "winner_id": 1,
+            "player_ids": [
+                0,
+                1
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                105,
+                105
+            ]
+        },
+        {
+            "player_scores": [
+                299,
+                301
+            ],
+            "winner_id": 1,
+            "player_ids": [
+                0,
+                1
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                78,
+                78
+            ]
+        },
+        {
+            "player_scores": [
+                300,
+                301
+            ],
+            "winner_id": 1,
+            "player_ids": [
+                0,
+                1
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                -115,
+                -115
+            ]
+        }
+    ]}],
+    "users": [
+        {
+            "name": "Ethan",
+            "id": 0
+        },
+        {
+            "name": "Joshua",
+            "id": 1
+        }
+    ]
+}

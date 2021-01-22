@@ -76,7 +76,7 @@ public class User {
 	 * @return Returns whether or not this user is denoted as temporary
 	 */
 	public boolean isTemporary() {
-		return _id == -1;
+		return _id < 0;
 	}
 
 	/**

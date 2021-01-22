@@ -66,6 +66,14 @@ public abstract class Game {
 	 */
 	public abstract void saveData();	
 	
+	public void endGame() {
+		ArrayList<User> users = getInfo().getPlayers();
+		for(User u: users) {
+			u.saveData();
+		}
+		this.saveData();
+	}
+	
 	/**
 	 * 
 	 * @return Returns the GameInfo associated with this Game

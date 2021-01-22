@@ -1,31 +1,28 @@
 package dartsApp;
 
-import java.util.Scanner;
+import java.util.Random;
 
 public class ClassicDartsTest {
 
 	public static void main(String[] args) {
 		
-		Scanner sc = new Scanner(System.in);
+		User plyr1 = new User("Ethan");
+		User plyr2 = new User("Joshua");
 		
+		Random rand = new Random();
 		
-		
-		ClassicDarts game = new ClassicDarts((byte) 2);
-		
-		while(game.getInfo().getWinner() == null) {
-			printGame(game);
-			System.out.printf("Enter Score for %s: ", game.getCurrentPlayer().getName());
-			if(game.addScore(sc.nextShort()) == Game.GameEvent.PLAYERBUSTED) {
-				System.out.println("BUSTED!");
+		for(int i = 0; i < 5; i++) {
+			ClassicDarts game = new ClassicDarts(new User[] {plyr1, plyr2});
+			
+			while(game.getInfo().getWinner() == null) {
+				game.addScore((short) rand.nextInt(40));
 			}
+			
+			// print game results
+			printGame(game);
+			// save data
+			game.endGame();
 		}
-		
-		printGame(game);
-		
-		sc.close();
-
-		// save data
-		game.saveData();
 	}
 	
 	private static void printGame(Game g) {
