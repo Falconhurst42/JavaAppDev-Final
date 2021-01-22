@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public abstract class Game {
 	public final static String JSON_ARRAY_NAME = "game data";
+	public final static Class<? extends GameInfo> GAME_INFO_TYPE = GameInfo.class;
 	protected GameInfo info;
 	protected byte
 		turn_num = 0,

@@ -11,9 +11,9 @@ import org.json.JSONObject;
 public class ClassicDarts extends Game {
 	private final static byte DARTS_PER_TURN = 3;
 	private final static short DEF_TARGET_SCORE = 301;
+	public final static Class<? extends GameInfo> GAME_INFO_TYPE = ClassicDartsInfo.class;
 	public final static String JSON_ARRAY_NAME = "classic darts";
-	private final static String GAME_PLAYED_TO = "played to";
-	private final short TARGET_SCORE;
+	public final static String GAME_PLAYED_TO = "played to";
 
 	/**
 	 * Creates a new Game with the given number of temporary players and a default target score (301) 
@@ -21,7 +21,7 @@ public class ClassicDarts extends Game {
 	 */
 	public ClassicDarts(byte player_count) {
 		super(player_count);
-		TARGET_SCORE = DEF_TARGET_SCORE;
+		info = new ClassicDartsInfo(info, DEF_TARGET_SCORE);
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class ClassicDarts extends Game {
 	 */
 	public ClassicDarts(User[] players) {
 		super(players);
-		TARGET_SCORE = DEF_TARGET_SCORE;
+		info = new ClassicDartsInfo(info, DEF_TARGET_SCORE);
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class ClassicDarts extends Game {
 	 */
 	public ClassicDarts(byte player_count, short target_score) {
 		super(player_count);
-		TARGET_SCORE = target_score;
+		info = new ClassicDartsInfo(info, target_score);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class ClassicDarts extends Game {
 	 */
 	public ClassicDarts(User[] players, short target_score) {
 		super(players);
-		TARGET_SCORE = target_score;
+		info = new ClassicDartsInfo(info, target_score);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class ClassicDarts extends Game {
 		}
 		else {
 			// check for bust
-			if(info.getTotalScores().get(player_num)+score > TARGET_SCORE) {
+			if(info.getTotalScores().get(player_num)+score > ((ClassicDartsInfo) this.info).getTargetScore()) {
 				// return that bust occurred
 				ret = GameEvent.PLAYERBUSTED;
 			}
@@ -74,7 +74,7 @@ public class ClassicDarts extends Game {
 						(short) (info.getTotalScores().get(player_num)+score)
 				);
 				// check for winner
-				if(info.getTotalScores().get(player_num) == TARGET_SCORE) {
+				if(info.getTotalScores().get(player_num) == ((ClassicDartsInfo) this.info).getTargetScore()) {
 					// set winner and return that the game is over
 					info.setWinner(info.getPlayers().get(player_num));
 					ret = GameEvent.GAMEOVER;
@@ -111,10 +111,10 @@ public class ClassicDarts extends Game {
 		game_info.put(SavedDataReader.GAME_SCORE_ARRAY, info.getTotalScores().toArray());
 		// add dart counts
 		game_info.put(SavedDataReader.GAME_DART_COUNT_ARRAY, info.getDartCounts().toArray());
-		// add winner
-		game_info.put(SavedDataReader.GAME_WINNER_ID, info.getWinner().getID());
+		// add winner (id = 0 if no winner)
+		game_info.put(SavedDataReader.GAME_WINNER_ID, (info.getWinner()==null ? 0 :  info.getWinner().getID()));
 		// add target score
-		game_info.put(GAME_PLAYED_TO, TARGET_SCORE);
+		game_info.put(GAME_PLAYED_TO, ((ClassicDartsInfo) this.info).getTargetScore());
 		
 		SavedDataReader.appendGameData(game_info, this.getClass());
 	}

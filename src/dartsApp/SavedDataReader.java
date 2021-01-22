@@ -101,6 +101,8 @@ public abstract class SavedDataReader {
 				if(new_file) {
 					base_json_obj = recreateBaseJSONObject();
 				}
+				
+				br.close();
 			}
 			catch (Exception ex) {
 				System.out.printf("Error occured: %s\n", ex.getLocalizedMessage());
@@ -272,7 +274,7 @@ public abstract class SavedDataReader {
 				}
 				
 				// create GameInfo
-				// TODO: replace with call to GameInfo.convertJSONObject
+				// TODO: get correct convertJSON function
 				ret.add(GameInfo.convertJSON(jo, users));
 			}
 			
@@ -292,11 +294,6 @@ public abstract class SavedDataReader {
 			// create returning arraylist
 			ArrayList<User> users = new ArrayList<User>();
 			
-			// convert from json to objects
-			for(Object o: user_arr) {
-				JSONObject jo = (JSONObject) o;
-				User temp = new User();
-			}
 			user_arr.forEach((o) -> users.add(new User(((JSONObject) o).getInt(USER_ID), ((JSONObject) o).getString(USER_NAME))));
 			
 			return users;

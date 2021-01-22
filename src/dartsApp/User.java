@@ -8,7 +8,8 @@ import org.json.JSONObject;
  *
  */
 public class User {
-	private static int next_id = 0;
+	// TODO: read saved data file to determine starting id
+	private static int next_id = 1;
 	private final int _id;
 	private String _name;
 

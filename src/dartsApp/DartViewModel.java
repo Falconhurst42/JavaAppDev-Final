@@ -26,6 +26,11 @@ public abstract class DartViewModel {
 		_game = game;
 	}
 	
+	/**
+	 * Saves the data of the current game and creates a new one
+	 * 
+	 * TODO: creating new game should give more control
+	 */
 	public void endGame() {
 		_game.endGame();
 		_game = new ClassicDarts((byte) 2);
