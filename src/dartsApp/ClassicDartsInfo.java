@@ -14,6 +14,9 @@ public class ClassicDartsInfo extends GameInfo {
 		TARGET_SCORE = T_S;
 	}
 
+	/**
+	 * @return Returns the score that this game is being / was played to
+	 */
 	public short getTargetScore() {
 		return TARGET_SCORE;
 	}
