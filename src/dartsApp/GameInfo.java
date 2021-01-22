@@ -65,10 +65,29 @@ public class GameInfo {
 	 * @return Returns a new GameInfo object 
 	 */
 	public static GameInfo convertJSON(JSONObject jo, List<User> players) {
+		// get users
+		User[] users = new User[players.size()-1];
+		for(int i = 0; i < players.size()-1; i++) {
+			users[i] = players.get(i);
+		}
+		// get scores
+		Short[] scores = new Short[users.length],
+				dart_counts = new Short[users.length];
+		int i = 0;
+		for(Object o: jo.getJSONArray(SavedDataReader.GAME_SCORE_ARRAY)) {
+			scores[i++] = ((Integer) o).shortValue();
+		}
+		// get dart counts
+		i = 0;
+		for(Object o: jo.getJSONArray(SavedDataReader.GAME_DART_COUNT_ARRAY)) {
+			dart_counts[i++] = ((Integer) o).shortValue();
+		}
+		
+		
 		return new GameInfo(
-				(User[]) players.subList(0, players.size()-1).toArray(), 
-				(Short[]) jo.getJSONArray(SavedDataReader.GAME_SCORE_ARRAY).toList().toArray(),
-				(Short[]) jo.getJSONArray(SavedDataReader.GAME_DART_COUNT_ARRAY).toList().toArray(),
+				users, 
+				scores,
+				dart_counts,
 				players.get(players.size()-1));
 	}
 	

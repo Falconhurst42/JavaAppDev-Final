@@ -1,0 +1,94 @@
+{
+    "game types": [{"classic darts": [
+        {
+            "player_scores": [
+                299,
+                301
+            ],
+            "winner_id": 2,
+            "player_ids": [
+                1,
+                2
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                45,
+                45
+            ]
+        },
+        {
+            "player_scores": [
+                301,
+                274
+            ],
+            "winner_id": 1,
+            "player_ids": [
+                1,
+                2
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                45,
+                42
+            ]
+        },
+        {
+            "player_scores": [
+                298,
+                301
+            ],
+            "winner_id": 2,
+            "player_ids": [
+                1,
+                2
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                144,
+                144
+            ]
+        },
+        {
+            "player_scores": [
+                301,
+                299
+            ],
+            "winner_id": 1,
+            "player_ids": [
+                1,
+                2
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                108,
+                105
+            ]
+        },
+        {
+            "player_scores": [
+                300,
+                301
+            ],
+            "winner_id": 2,
+            "player_ids": [
+                1,
+                2
+            ],
+            "played to": 301,
+            "player_dart_counts": [
+                165,
+                165
+            ]
+        }
+    ]}],
+    "users": [
+        {
+            "name": "Ethan",
+            "id": 1
+        },
+        {
+            "name": "Joshua",
+            "id": 2
+        }
+    ]
+}

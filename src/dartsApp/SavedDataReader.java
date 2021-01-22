@@ -283,14 +283,15 @@ public abstract class SavedDataReader {
 				
 				// create GameInfo
 				// TODO: get correct convertJSON function
-				ret.add(GameInfo.convertJSON(jo, users));
-				/*try {
+				// ret.add(GameInfo.convertJSON(jo, temp_users));
+				try {
 					Class<? extends Game> cl = (Class<? extends Game>) game_type.getField("GAME_INFO_TYPE").get(null);
 					Method m = cl.getMethod("convertJSON", new Class[] {JSONObject.class, List.class});
-					GameInfo got_gi = (GameInfo) m.invoke(null, new Object[] {jo, users});
+					// Object[] args = new Object[] {jo, users};
+					GameInfo got_gi = (GameInfo) m.invoke(null, jo, temp_users);
 					
 					ret.add(got_gi);
-				} catch (Exception ex) { System.out.printf("Error occured calling alternate convertJSON(): %s", ex.getLocalizedMessage()); }*/
+				} catch (Exception ex) { System.out.printf("Error occured calling alternate convertJSON(): %s", ex.getLocalizedMessage()); }
 			}
 			
 			// return
