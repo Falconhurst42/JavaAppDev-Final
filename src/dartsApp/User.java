@@ -119,25 +119,24 @@ public class User {
 		}
 	}
 
-	public static User readUser(int id) {
-		// check for temp user
-		if(id < 0) {
-			return new User(id);
-		}
-		// otherwise search for user
-		else {
-			return null;
-		}
-	}
-
+	/**
+	 * @return Returns the number of games this user has won
+	 */
 	public int getWins() {
 		return _wins;
 	}
 
+	/**
+	 * @return Returns the number of games this user has lost
+	 */
 	public int getLosses() {
 		return _losses;
 	}
 	
+	/**
+	 * Updates the user's win/loss record based on the give game result
+	 * @param won A boolean representing whether the user won the game in question
+	 */
 	public void addResult(boolean won) {
 		if(won) {
 			_wins++;
@@ -147,10 +146,16 @@ public class User {
 		}
 	}
 
+	/**
+	 * @return Returns this user's total dart count
+	 */
 	public int getDartCount() {
 		return _dart_count;
 	}
 
+	/**
+	 * @return Returns this user's average score
+	 */
 	public double getAverage() {
 		return _average;
 	}

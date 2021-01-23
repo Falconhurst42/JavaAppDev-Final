@@ -51,6 +51,11 @@ public class GameInfo {
 		this.winner = winner;
 	}
 	
+	/**
+	 * Copies the GameInfo of the given GameInfo to this GameInfo
+	 * Useful when converting from a base GameInfo to a derived type
+	 * @param gi The GameInfo to be copied
+	 */
 	protected void copyGameInfo(GameInfo gi) {
 		_players = gi.getPlayers();
 		total_scores = gi.getTotalScores();

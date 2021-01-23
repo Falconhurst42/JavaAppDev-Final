@@ -45,6 +45,11 @@ public class DartViewModel {
 		//newGame(ClassicDarts.class, new Object[] {(Byte) (byte) 2});
 	}
 	
+	/**
+	 * Initializes a new game for this DVM
+	 * @param game_type The class of the game type to be initializes
+	 * @param params The parameters of a constructor for the given game type contained in an array of Objects
+	 */
 	public void newGame(Class<? extends Game> game_type, Object[] params) {
 		try {
 			Class[] classes = new Class[params.length];
@@ -185,10 +190,17 @@ public class DartViewModel {
 		return _game.getInfo().getWinner() != null;
 	}
 
+	/**
+	 * @return Returns an ArrayList of all the Users this DVM is aware of
+	 */
 	public ArrayList<User> getUsers() {
 		return users;
 	}
 
+	/**
+	 * Adds a User to this DVM and to the saved data file
+	 * @param user User to be added
+	 */
 	public void addUser(User user) {
 		users.add(user);
 		user.saveData();

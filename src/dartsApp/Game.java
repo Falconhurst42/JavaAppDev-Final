@@ -58,6 +58,9 @@ public abstract class Game {
 	 */
 	public abstract void saveData();	
 	
+	/**
+	 * Saves the data of this game to the saved data file
+	 */
 	public void endGame() {
 		ArrayList<User> users = getInfo().getPlayers();
 		
