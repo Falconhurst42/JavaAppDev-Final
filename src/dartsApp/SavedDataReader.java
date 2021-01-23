@@ -24,15 +24,16 @@ public abstract class SavedDataReader {
 		SAVED_GAME_INFO_FILE_NAME = "resources\\saved_info\\SavedGameInfo.json",
 		GAME_TYPE_ARRAY = "game types",
 		USER_ARRAY = "users",
-		GAME_PLAYER_ID_ARRAY = "player_ids",
-		GAME_SCORE_ARRAY = "player_scores",
-		GAME_DART_COUNT_ARRAY = "player_dart_counts",
-		GAME_WINNER_ID = "winner_id",
+		GAME_PLAYER_ID_ARRAY = "player ids",
+		GAME_SCORE_ARRAY = "player scores",
+		GAME_DART_COUNT_ARRAY = "player dart counts",
+		GAME_WINNER_ID = "winner id",
+		USER_NEXT_ID = "next id",
 		USER_ID = "id",
 		USER_NAME = "name",
 		USER_WINS = "wins",
 		USER_LOSSES = "losses",
-		USER_DART_COUNT = "dart_count",
+		USER_DART_COUNT = "dart count",
 		USER_AVERAGE = "average";  
 	
 	// PRIVATE READERS
@@ -134,7 +135,8 @@ public abstract class SavedDataReader {
 			// create new base object
 			base_json_obj = new JSONObject();
 			
-			// create new base arrays and add them to base object
+			// create new base arrays (and user id field) and add them to base object
+			base_json_obj.put(USER_NEXT_ID, 1);
 			base_json_obj.put(GAME_TYPE_ARRAY, new JSONArray());
 			base_json_obj.put(USER_ARRAY, new JSONArray());
 			
@@ -334,6 +336,22 @@ public abstract class SavedDataReader {
 			return users;
 		}
 
+		/**
+		 * Reads the next user id from the saved data file
+		 * @return Returns the next user id
+		 */
+		public static int getNextID() {
+			try {
+				// try getting the id
+				JSONObject base_obj = getBaseJSONObject();
+				return base_obj.getInt(USER_NEXT_ID);
+			} catch (Exception ex) {
+				// if that fails recreate the base object and try again
+				recreateBaseJSONObject();
+				return getNextID();
+			}
+		}
+		
 	// PRINTERS
 		/**
 		 * Prints the given JSONObject to the saved data file
@@ -436,5 +454,21 @@ public abstract class SavedDataReader {
 			
 			// print
 			printToFile(base_obj);
+		}
+		
+		/**
+		 * Increments the next user ID stored in saved data file
+		 */
+		public static void incrementNextUserID() {
+			try {
+				// try incrementing the id
+				JSONObject base_obj = getBaseJSONObject();
+				base_obj.put(USER_NEXT_ID, base_obj.getInt(USER_NEXT_ID)+1);
+				printToFile(base_obj);
+			} catch (Exception ex) {
+				// if that fails recreate the base object and try again
+				recreateBaseJSONObject();
+				incrementNextUserID();
+			}
 		}
 }

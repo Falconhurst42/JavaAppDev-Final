@@ -1,5 +1,6 @@
 package dartsApp;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 /**
@@ -40,6 +41,22 @@ public class DartViewModel {
 	public void endGame() {
 		_game.endGame();
 		_game = new ClassicDarts((byte) 2);
+	}
+	
+	public void newGame(Class<? extends Game> game_type, Object[] params) {
+		try {
+			Class[] classes = new Class[params.length];
+			for(int i = 0; i < params.length; i++) {
+				classes[i] = params[i].getClass();
+			}
+			
+			Constructor<? extends Game> constr = game_type.getConstructor(classes);
+			_game = constr.newInstance(params);
+			//Constructor<? extends Game> constr = game_type.getConstructor(new Class[] {players.getClass()} );
+			//_game = constr.newInstance(new Object[] {players} );
+		} catch (Exception ex) {
+			System.out.printf("Exception constructing new Game with reflections: %s\n", ex.getLocalizedMessage()); 
+		}
 	}
 	
 	/**

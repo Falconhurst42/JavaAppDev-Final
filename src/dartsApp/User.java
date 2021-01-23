@@ -8,8 +8,6 @@ import org.json.JSONObject;
  *
  */
 public class User {
-	// TODO: read saved data file to determine starting id
-	private static int next_id = 1;
 	private final int _id;
 	private int _wins, _losses, _dart_count;
 	private double _average;
@@ -19,7 +17,8 @@ public class User {
 	 * Creates a new User with a generic name
 	 */
 	public User() {
-		_id = next_id++;
+		_id = SavedDataReader.getNextID();
+		SavedDataReader.incrementNextUserID();
 		_name = String.format("User #%d", _id);
 		_average = _dart_count = _wins = _losses = 0;
 	}
@@ -29,7 +28,8 @@ public class User {
 	 * @param name The User's name
 	 */
 	public User(String name) {
-		_id = next_id++;
+		_id = SavedDataReader.getNextID();
+		SavedDataReader.incrementNextUserID();
 		setName(name);
 		_average = _dart_count = _wins = _losses = 0;
 	}
