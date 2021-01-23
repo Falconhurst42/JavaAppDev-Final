@@ -7,6 +7,7 @@ package dartsApp;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
@@ -19,7 +20,7 @@ import javax.swing.JScrollPane;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.List;
+import java.awt.desktop.UserSessionEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -31,10 +32,12 @@ public class DartView extends SavedDataReader{
 	private JButton addScorebutton;
 	private JTextPane textPane;
 	private JPanel panel;
-	private JTextPane highScoreText;
+	private JTextPane userTextInfo;
 	private JTable dataTable;
 	private JScrollPane scrollPane;
-	
+	private JFrame pop;
+	private JButton addUser;
+	private  JToggleButton toggleHighScore;
 	
 	private String tableCols[] = { "Name", "Score", "Avg. Score" };
 	private static String data[][] = {{" "," "," "}, {" "," ", " "}, {" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "}};
@@ -47,8 +50,7 @@ public class DartView extends SavedDataReader{
 
 				public boolean isCellEditable(int row, int column) {
 			       return false;
-			    } 
-			   
+			    }    
 		   };
 	
   
@@ -82,7 +84,6 @@ public class DartView extends SavedDataReader{
 	 */
 	public DartView() {
 		
-		VVM.inputScore((short)80);
 		
 		user = SavedDataReader.getUsers();
 		for(int i = 0; i < user.size(); i++) {
@@ -112,38 +113,45 @@ public class DartView extends SavedDataReader{
 		
 	    addScorebutton = new JButton("Add Score");
 	    addScorebutton.addActionListener(actionListener);
+		
+		addUser = new JButton("Add User");
+		addUser.addActionListener(actionListener);
+		
+		toolBar.add(addUser);
 		toolBar.add(addScorebutton);
 		
 		textPane = new JTextPane();
 		toolBar.add(textPane);
 		
+		//panel positioning, designed by eclipse window. 
 		panel = new JPanel();
-		frmDartGame.getContentPane().add(panel, BorderLayout.CENTER);
+		frmDartGame.getContentPane().add(panel, BorderLayout.EAST);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{35, 129, 121, 188, 0};
-		gbl_panel.rowHeights = new int[]{21, 202, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{35, 0, 129, 121, 188, 0};
+		gbl_panel.rowHeights = new int[]{21, 0, 202, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
-		
-		JToggleButton toggleHighScore = new JToggleButton("Winners");
-		GridBagConstraints gbc_toggleHighScore = new GridBagConstraints();
-		gbc_toggleHighScore.anchor = GridBagConstraints.NORTH;
-		gbc_toggleHighScore.fill = GridBagConstraints.HORIZONTAL;
-		gbc_toggleHighScore.insets = new Insets(0, 0, 5, 5);
-		gbc_toggleHighScore.gridx = 1;
-		gbc_toggleHighScore.gridy = 0;
-		panel.add(toggleHighScore, gbc_toggleHighScore);
-		
-		highScoreText = new JTextPane();
-		GridBagConstraints gbc_textPane_1 = new GridBagConstraints();
-		gbc_textPane_1.fill = GridBagConstraints.BOTH;
-		gbc_textPane_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textPane_1.gridx = 1;
-		gbc_textPane_1.gridy = 1;
-		panel.add(highScoreText, gbc_textPane_1);
 	   
 	   setTable();
+	   
+	   //create new toggle button
+	   toggleHighScore = new JToggleButton("User Info");
+	   toggleHighScore.addActionListener(actionListener);
+	   GridBagConstraints gbc_toggleHighScore = new GridBagConstraints();
+	   gbc_toggleHighScore.anchor = GridBagConstraints.NORTH;
+	   gbc_toggleHighScore.insets = new Insets(0, 0, 5, 5);
+	   gbc_toggleHighScore.gridx = 2;
+	   gbc_toggleHighScore.gridy = 1;
+	   panel.add(toggleHighScore, gbc_toggleHighScore);
+	   
+	   userTextInfo = new JTextPane();
+	   GridBagConstraints gbc_textPane_1 = new GridBagConstraints();
+	   gbc_textPane_1.fill = GridBagConstraints.BOTH;
+	   gbc_textPane_1.insets = new Insets(0, 0, 5, 5);
+	   gbc_textPane_1.gridx = 2;
+	   gbc_textPane_1.gridy = 2;
+	   panel.add(userTextInfo, gbc_textPane_1);
 	   
 	   dataTable = new JTable();
 	   
@@ -151,10 +159,11 @@ public class DartView extends SavedDataReader{
 	   
 	   scrollPane = new JScrollPane(dataTable);
 	   GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+	   gbc_scrollPane.gridwidth = 2;
 	   gbc_scrollPane.gridheight = 2;
 	   gbc_scrollPane.fill = GridBagConstraints.BOTH;
 	   gbc_scrollPane.gridx = 3;
-	   gbc_scrollPane.gridy = 1;
+	   gbc_scrollPane.gridy = 2;
 	   panel.add(scrollPane, gbc_scrollPane);
 	   
 	   
@@ -169,28 +178,47 @@ public class DartView extends SavedDataReader{
         			Model.setRowCount(0);
         			Model.setRowCount(5); 	
         			
+        			JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
+        			
         			VVM = new DartViewModel();
         			setTable();
         			
         	}if(a.getSource() == addScorebutton) {
         		
+        		if(textPane.getText() != null) {
         		String txt = textPane.getText();
+        		
         		short num = (short)Integer.parseInt(txt);
         		VVM.inputScore(num);
         		
-        		VVM.getWinner();
+        		if(VVM.hasWinner()) {
+        			//researched pop up windows from https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
+        			JOptionPane.showMessageDialog(pop, VVM.getWinner().getName() + " has Won!", "WINNER", JOptionPane.INFORMATION_MESSAGE);
+        	
+        		}
         		
         		textPane.setText("");
         		setTable();
         		
-        	
+        		}
+        	} else if(a.getSource() == toggleHighScore) {
+        		
+        	if(userTextInfo.getText() == null) {
+        		for(int i = 0; i < user.size(); i++) {
+        		userTextInfo.setText(user.get(i).getName());
         		}
         		
+        	}else {
+        			
+        			userTextInfo.setText(" ");
+        		}
         	}
-        	
- };
-	
-	
+        		
+        	}
+        		
+        		
+	};
+       
 	
 	private void setTable() {
 			
