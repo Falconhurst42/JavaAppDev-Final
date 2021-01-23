@@ -136,7 +136,7 @@ public class DartViewModel {
 	 * @return Returns whether or not this game has a winner yet
 	 */
 	public boolean hasWinner() {
-		return _game.getInfo().getWinner() == null;
+		return _game.getInfo().getWinner() != null;
 	}
 
 	public ArrayList<User> getUsers() {
