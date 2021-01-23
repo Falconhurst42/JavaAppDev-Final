@@ -6,14 +6,14 @@ public class ClassicDartsTest {
 
 	public static void main(String[] args) {
 		
-		for(int i = 0; i < 5; i++) {			
+		/*for(int i = 0; i < 5; i++) {			
 			propogateGames(new User[] {
 					new User(String.format("Ethan #%d", i+1)), 
 					new User(String.format("Joshua #%d", i+1))}, 5);
-		}
+		}*/
 
-		//DartViewModel dvm = new DartViewModel();
-		//dvm.newGame(ClassicDarts.class, new Object[] { new User[] {plyr1, plyr2}, (Short) (short) 501 });
+		DartViewModel dvm = new DartViewModel();
+		dvm.newGame(ClassicDarts.class, new Object[] { new User[] {new User("Ethan"), new User("Joshua")}, (short) 501 });
 		
 		return;
 	}

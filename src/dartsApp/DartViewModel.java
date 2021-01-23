@@ -2,6 +2,8 @@ package dartsApp;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * ViewModel class to manage a Game object for a DartView
@@ -40,14 +42,50 @@ public class DartViewModel {
 	 */
 	public void endGame() {
 		_game.endGame();
-		_game = new ClassicDarts((byte) 2);
+		//newGame(ClassicDarts.class, new Object[] {(Byte) (byte) 2});
 	}
 	
 	public void newGame(Class<? extends Game> game_type, Object[] params) {
 		try {
 			Class[] classes = new Class[params.length];
+			
+			Set<Class<?>> primitives = new HashSet<Class<?>>();
+			primitives.add(Byte.class);
+			primitives.add(Short.class);
+			primitives.add(Integer.class);
+			primitives.add(Long.class);
+			primitives.add(Float.class);
+			primitives.add(Double.class);
+			primitives.add(Character.class);
+			primitives.add(Boolean.class);
+			
 			for(int i = 0; i < params.length; i++) {
-				classes[i] = params[i].getClass();
+				// correct for primitive.class vs. primitive.TYPE
+				if(primitives.contains(params[i].getClass())) {
+					Class cl = params[i].getClass();
+					// just gotta check all primitives manually cuz you can't cast to a generic primitive wrapper class
+					if(cl == Byte.class) {
+						classes[i] = Byte.TYPE;
+					} else if(cl == Short.class) {
+						classes[i] = Short.TYPE;
+					} else if(cl == Integer.class) {
+						classes[i] = Integer.TYPE;
+					} else if(cl == Long.class) {
+						classes[i] = Long.TYPE;
+					} else if(cl == Float.class) {
+						classes[i] = Float.TYPE;
+					} else if(cl == Double.class) {
+						classes[i] = Double.TYPE;
+					} else if(cl == Character.class) {
+						classes[i] = Character.TYPE;
+					} else if(cl == Boolean.class) {
+						classes[i] = Boolean.TYPE;
+					}
+				}
+				// otherwise just take the class normally
+				else {
+					classes[i] = params[i].getClass();
+				}
 			}
 			
 			Constructor<? extends Game> constr = game_type.getConstructor(classes);
