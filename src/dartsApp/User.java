@@ -145,11 +145,11 @@ public class User {
 	/**
 	 * Updates the dart_count and average for this player based off the given game data
 	 * @param dart_count The number of darts through in the given period
-	 * @param average The average score over the given period
+	 * @param total The total score over the given period
 	 */
-	public void updateStats(int dart_count, double average) {
+	public void updateStats(int dart_count, double total) {
 		// update average
-		_average = ((_average*((double) _dart_count)) + average) / ((double) dart_count);
+		_average = ((_average*((double) _dart_count)) + total) / ((double) dart_count+_dart_count);
 		// update dart count
 		_dart_count += dart_count;
 	}

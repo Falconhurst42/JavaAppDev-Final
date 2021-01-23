@@ -167,16 +167,7 @@ public class DartViewModel {
 	 * @return Returns the player's average scores in the same order as the players array
 	 */
 	public ArrayList<Double> getAverages() {
-		// get data
-		ArrayList<Short> dart_counts = getDartCounts();
-		ArrayList<Short> scores = getScores();
-		// create averages array
-		ArrayList<Double> averages = new ArrayList<Double>();
-		// compute averages
-		for(int i = 0; i < getPlayerCount(); i++) {
-			averages.add((((double) scores.get(i)) / ((double) dart_counts.get(i))));
-		}
-		return averages;
+		return _game.getInfo().getAverages();
 	}
 	
 	/**

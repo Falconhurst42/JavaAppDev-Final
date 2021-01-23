@@ -1,5 +1,6 @@
 package dartsApp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -26,6 +27,21 @@ public class ClassicDartsInfo extends GameInfo {
 	}
 	
 	/**
+	 * Returns the average scores for the players
+	 * @returnReturns an ArrayList containing the player's average scores
+	 */
+	@Override
+	public ArrayList<Double> getAverages() {
+		ArrayList<Double> ret = new ArrayList<Double>();
+		
+		for(int i = 0; i < super.getPlayers().size(); i++) {
+			ret.add(((double) (getTargetScore() - super.getTotalScores().get(i))) / ((double) super.getDartCounts().get(i)));
+		}
+		
+		return ret;
+	}
+	
+	/**
 	 * Converts a JSONObject and a users array into a GameInfo Object and returns it
 	 * @param jo JSONObject containing the game's info
 	 * @param players A List of the Users in the game
@@ -34,7 +50,7 @@ public class ClassicDartsInfo extends GameInfo {
 	public static GameInfo convertJSON(JSONObject jo, List<User> players) {
 		return new ClassicDartsInfo(
 				GameInfo.convertJSON(jo, players), 
-				(short) jo.getInt(ClassicDarts.GAME_PLAYED_TO)
+				(short) jo.getInt(ClassicDarts.GAME_PLAYED_FROM)
 		);
 	}
 

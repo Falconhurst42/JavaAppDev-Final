@@ -6,23 +6,11 @@ public class ClassicDartsTest {
 
 	public static void main(String[] args) {
 		
-		/*for(int i = 0; i < 5; i++) {			
+		for(int i = 0; i < 3; i++) {			
 			propogateGames(new User[] {
 					new User(String.format("Ethan #%d", i+1)), 
-					new User(String.format("Joshua #%d", i+1))}, 5);
-		}*/
-
-		DartViewModel dvm = new DartViewModel();
-		dvm.newGame(
-				ClassicDarts.class, 
-				new Object[] { 
-						new User[] {
-								new User("Ethan"), 
-								new User("Joshua")}, 
-						(short) 501 }
-				);
-		
-		return;
+					new User(String.format("Joshua #%d", i+1))}, 10);
+		}
 	}
 	
 	private static void propogateGames(User[] players, int game_count) {
@@ -49,7 +37,7 @@ public class ClassicDartsTest {
 					"%s: %d (avg: %f)\n", 
 					g.getInfo().getPlayers().get(i).getName(), 
 					g.info.getTotalScores().get(i),
-					(double)g.info.getTotalScores().get(i) / (double)g.info.getDartCounts().get(i)
+					g.info.getAverages().get(i)
 			);
 		}
 		if(g.getInfo().getWinner() != null) {

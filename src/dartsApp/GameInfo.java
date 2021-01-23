@@ -106,6 +106,20 @@ public class GameInfo {
 	public ArrayList<Short> getDartCounts() {
 		return dart_counts;
 	}
+	
+	/**
+	 * Returns the average scores for the players
+	 * @returnReturns an ArrayList containing the player's average scores
+	 */
+	public ArrayList<Double> getAverages() {
+		ArrayList<Double> ret = new ArrayList<Double>();
+		
+		for(int i = 0; i < _players.size(); i++) {
+			ret.add(((double) total_scores.get(i)) / ((double) dart_counts.get(i)));
+		}
+		
+		return ret;
+	}
 
 	/**
 	 * Get the players of the GameInfo

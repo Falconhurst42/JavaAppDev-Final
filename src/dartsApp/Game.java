@@ -61,22 +61,32 @@ public abstract class Game {
 	public void endGame() {
 		ArrayList<User> users = getInfo().getPlayers();
 		
+		// update and save user data
 		for(int i = 0; i < users.size(); i++) {
 			// get user
 			User u = users.get(i);
 			
 			// update win/loss
 			u.addResult(u == getInfo().getWinner());
-			
+
 			// update dart_count + average
-			u.updateStats(
-					getInfo().getDartCounts().get(i), 
-					((double) getInfo().getTotalScores().get(i)) / ((double) getInfo().getDartCounts().get(i))
-			);
+			int d_c, tot;
+			if(this.getClass() == ClassicDarts.class) {
+				d_c = getInfo().getDartCounts().get(i);
+				tot = ((ClassicDartsInfo) getInfo()).getTargetScore() - getInfo().getTotalScores().get(i);
+			}
+			else {
+				d_c = getInfo().getDartCounts().get(i);
+				tot = getInfo().getTotalScores().get(i);
+			}
+			u.updateStats(d_c, tot);
+			
 			
 			// save result
 			u.saveData();
 		}
+		
+		// save game data
 		this.saveData();
 	}
 	
