@@ -56,6 +56,19 @@ public class User {
 		_average = average;
 	}
 	
+	@Override
+	public String toString() {
+		return String.format(
+			"\"%s\" (id: %d)\nWin/Loss: %d/%d\nTotal Darts: %d\nAverage Score: %.2f",
+			_name,
+			_id,
+			_wins,
+			_losses,
+			_dart_count,
+			_average
+		);
+	}
+	
 	/**
 	 * 
 	 * @return Returns the User's id

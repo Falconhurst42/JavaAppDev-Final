@@ -7,13 +7,16 @@ public class ClassicDartsTest {
 	public static void main(String[] args) {
 		
 		for(int i = 0; i < 3; i++) {			
-			propogateGames(new User[] {
+			simulateGames(new User[] {
 					new User(String.format("Ethan #%d", i+1)), 
 					new User(String.format("Joshua #%d", i+1))}, 10);
 		}
+		for(User u: SavedDataReader.getUsers()) {
+			System.out.println("\n" + u.toString() + "\n");
+		}
 	}
 	
-	private static void propogateGames(User[] players, int game_count) {
+	private static void simulateGames(User[] players, int game_count) {
 		Random rand = new Random();
 		
 		for(int i = 0; i < game_count; i++) {
