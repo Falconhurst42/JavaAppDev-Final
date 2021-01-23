@@ -13,7 +13,14 @@ public class ClassicDartsTest {
 		}*/
 
 		DartViewModel dvm = new DartViewModel();
-		dvm.newGame(ClassicDarts.class, new Object[] { new User[] {new User("Ethan"), new User("Joshua")}, (short) 501 });
+		dvm.newGame(
+				ClassicDarts.class, 
+				new Object[] { 
+						new User[] {
+								new User("Ethan"), 
+								new User("Joshua")}, 
+						(short) 501 }
+				);
 		
 		return;
 	}

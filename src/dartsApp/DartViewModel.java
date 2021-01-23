@@ -200,5 +200,6 @@ public class DartViewModel {
 
 	public void addUser(User user) {
 		users.add(user);
+		user.saveData();
 	}
 }
