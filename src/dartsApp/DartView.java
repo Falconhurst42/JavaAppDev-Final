@@ -14,16 +14,12 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.desktop.UserSessionEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JTextArea;
 
 public class DartView extends SavedDataReader{
 
@@ -32,15 +28,19 @@ public class DartView extends SavedDataReader{
 	private JButton addScorebutton;
 	private JTextPane textPane;
 	private JPanel panel;
-	private JTextPane userTextInfo;
 	private JTable dataTable;
 	private JScrollPane scrollPane;
 	private JFrame pop;
 	private JButton addUser;
-	private  JToggleButton toggleHighScore;
+	private JButton userLstBtn;
+	private int count = 1;
+	private JTextArea userTextInfo;
+	private SavedDataReader obj;
 	
 	private String tableCols[] = { "Name", "Score", "Avg. Score" };
 	private static String data[][] = {{" "," "," "}, {" "," ", " "}, {" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "}};
+	
+	
 	
 	//used a dataModel to reset table 
 	//found at https://stackoverflow.com/questions/3879610/how-to-clear-contents-of-a-jtable/3880040
@@ -85,12 +85,14 @@ public class DartView extends SavedDataReader{
 	public DartView() {
 		
 		
-		user = SavedDataReader.getUsers();
-		for(int i = 0; i < user.size(); i++) {
+	//	user = SavedDataReader.getUsers();
+	//	for(int i = 0; i < user.size(); i++) {
 			
-			data[0][0] = user.get(0).getName();
+	//		data[0][0] = user.get(0).getName();
 		
-		}
+	//	}
+		
+		JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
 		initialize();
 	}
 
@@ -101,7 +103,7 @@ public class DartView extends SavedDataReader{
 		
 		frmDartGame = new JFrame();
 		frmDartGame.setTitle("DART GAME");
-		frmDartGame.setBounds(100, 100, 685, 514);
+		frmDartGame.setBounds(100, 100, 765, 577);
 		frmDartGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JToolBar toolBar = new JToolBar();
@@ -125,46 +127,32 @@ public class DartView extends SavedDataReader{
 		
 		//panel positioning, designed by eclipse window. 
 		panel = new JPanel();
-		frmDartGame.getContentPane().add(panel, BorderLayout.EAST);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{35, 0, 129, 121, 188, 0};
-		gbl_panel.rowHeights = new int[]{21, 0, 202, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		frmDartGame.getContentPane().add(panel, BorderLayout.CENTER);
 	   
 	   setTable();
 	   
-	   //create new toggle button
-	   toggleHighScore = new JToggleButton("User Info");
-	   toggleHighScore.addActionListener(actionListener);
-	   GridBagConstraints gbc_toggleHighScore = new GridBagConstraints();
-	   gbc_toggleHighScore.anchor = GridBagConstraints.NORTH;
-	   gbc_toggleHighScore.insets = new Insets(0, 0, 5, 5);
-	   gbc_toggleHighScore.gridx = 2;
-	   gbc_toggleHighScore.gridy = 1;
-	   panel.add(toggleHighScore, gbc_toggleHighScore);
-	   
-	   userTextInfo = new JTextPane();
-	   GridBagConstraints gbc_textPane_1 = new GridBagConstraints();
-	   gbc_textPane_1.fill = GridBagConstraints.BOTH;
-	   gbc_textPane_1.insets = new Insets(0, 0, 5, 5);
-	   gbc_textPane_1.gridx = 2;
-	   gbc_textPane_1.gridy = 2;
-	   panel.add(userTextInfo, gbc_textPane_1);
+	   userLstBtn = new JButton("User Info");
+	   userLstBtn.setBounds(85, 10, 92, 27);
+	   userLstBtn.addActionListener(actionListener);
+	   panel.setLayout(null);
+	   panel.add(userLstBtn);
 	   
 	   dataTable = new JTable();
 	   
 	   dataTable.setModel(Model);
 	   
 	   scrollPane = new JScrollPane(dataTable);
-	   GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-	   gbc_scrollPane.gridwidth = 2;
-	   gbc_scrollPane.gridheight = 2;
-	   gbc_scrollPane.fill = GridBagConstraints.BOTH;
-	   gbc_scrollPane.gridx = 3;
-	   gbc_scrollPane.gridy = 2;
-	   panel.add(scrollPane, gbc_scrollPane);
+	   scrollPane.setBounds(306, 10, 409, 203);
+	   panel.add(scrollPane);
+	   
+	   userTextInfo = new JTextArea();
+	   userTextInfo.setBounds(20, 47, 230, 171);
+	   userTextInfo.setWrapStyleWord(true);
+	   panel.add(userTextInfo);
+	   
+	   JPanel panel_1 = new JPanel();
+	   panel_1.setBounds(20, 228, 695, 253);
+	   panel.add(panel_1);
 	   
 	   
 	}
@@ -180,7 +168,9 @@ public class DartView extends SavedDataReader{
         			
         			JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
         			
+        			
         			VVM = new DartViewModel();
+        			VVM.newGame(ClassicDarts.class, new Object[] { (byte)2 });
         			setTable();
         			
         	}if(a.getSource() == addScorebutton) {
@@ -194,31 +184,54 @@ public class DartView extends SavedDataReader{
         		if(VVM.hasWinner()) {
         			//researched pop up windows from https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
         			JOptionPane.showMessageDialog(pop, VVM.getWinner().getName() + " has Won!", "WINNER", JOptionPane.INFORMATION_MESSAGE);
-        	
+        			VVM.endGame();
         		}
         		
         		textPane.setText("");
         		setTable();
         		
         		}
-        	} else if(a.getSource() == toggleHighScore) {
         		
-        	if(userTextInfo.getText() == null) {
-        		for(int i = 0; i < user.size(); i++) {
-        		userTextInfo.setText(user.get(i).getName());
-        		}
+        	} else if(a.getSource() == userLstBtn) {
         		
-        	}else {
+        		count++;
+        		if(count % 2 == 0) {
+        	
+        			for(int i = 0; i < VVM.getPlayers().size(); i++) {
+        				
+        				ArrayList<User> users = SavedDataReader.getUsers();
+        				
+        				String name = users.get(i).getName();
+        				int win = users.get(i).getWins();
+        				double avg = users.get(i).getAverage();
         			
-        			userTextInfo.setText(" ");
-        		}
+        				
+        				
+        		      userTextInfo.append(String.format("%s (Wins: %d) (Average: %.2f) \n", name, win, avg ));
+        			 //userTextInfo.append(users.get(i).toString()+ "\n\n");
+        			}
+        		} else {
+        				
+        				userTextInfo.setText(" "); 				
+        				
+        			}			
+        			
+        		} else if(a.getSource() == addUser) {
+        		
+        		String name = textPane.getText();
+        		User one = new User(name);
+        		
+        		VVM.addUser(one);
+        		textPane.setText("");
+        		setTable();
+        		
         	}
         		
         	}
         		
         		
 	};
-       
+	
 	
 	private void setTable() {
 			
@@ -236,4 +249,17 @@ public class DartView extends SavedDataReader{
 		
 	}
 	
+
+
+private static void createTable(JTable J, GameInfo obj) {
+	
+	obj.getPlayers();
+	
 }
+
+
+
+}
+
+
+
