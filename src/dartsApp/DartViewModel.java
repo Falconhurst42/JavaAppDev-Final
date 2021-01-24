@@ -203,7 +203,9 @@ public class DartViewModel {
 	 * @param user User to be added
 	 */
 	public void addUser(User user) {
-		users.add(user);
+		if(!users.contains(user)) {
+			users.add(user);
+		}
 		user.saveData();
 	}
 }
