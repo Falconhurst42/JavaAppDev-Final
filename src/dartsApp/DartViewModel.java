@@ -199,6 +199,7 @@ public class DartViewModel {
 
 	/**
 	 * Adds a User to this DVM and to the saved data file
+	 * NOTE: this does not add the User to the current Game, only to the DVM's list of all users and to the saved data file
 	 * @param user User to be added
 	 */
 	public void addUser(User user) {

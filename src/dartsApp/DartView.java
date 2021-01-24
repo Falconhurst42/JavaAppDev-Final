@@ -56,12 +56,6 @@ public class DartView extends SavedDataReader{
 	
   
 	private static DartViewModel VVM = new DartViewModel();
-	private static ArrayList<User> user;
-	private String userArr[];
-	private Game gameObj = new ClassicDarts((byte)2);
-	
-	private static ArrayList<Short> Scores = new ArrayList<Short>(VVM.getScores());
-	private ArrayList<Double> avg = new ArrayList<Double>(VVM.getAverages());
 	
 	/**
 	 * Launch the application.
@@ -228,7 +222,7 @@ public class DartView extends SavedDataReader{
 	
 	private static void setTable() {
 			
-		for(int i = 0; i < Scores.size(); i++) {
+		for(int i = 0; i < VVM.getPlayerCount(); i++) {
 			
 			String name =  VVM.getPlayers().get(i).getName();
 			String score = VVM.getScores().get(i).toString();
@@ -243,16 +237,34 @@ public class DartView extends SavedDataReader{
 	}
 	
 
-
-private static void CreateGame() {
+private void CreateGame() {
 	
 	String playerNum = JOptionPane.showInputDialog(pop, "How many players would you like to add? ");
 	int Num = Integer.parseInt(playerNum);
 	
+	// Ethan's take on the problem
+	// create players array
+	User[] players = new User[Num];
 	
+	// get player names and create players
 	for(int i = 0; i < Num; i++) {
+		String name = JOptionPane.showInputDialog(pop, "Type in name: ");
+		players[i] = new User(name);
+	}
 	
-		String Names =JOptionPane.showInputDialog(pop, "Type in name: ");
+	// pass players to newGame initializer
+	VVM.newGame(ClassicDarts.class, new Object[] {players});
+	/* NOTE: the following code would do the same as the above function call
+	 * while also setting the target score of the game to the value of "target"
+	Short target = 301;
+	VVM.newGame(ClassicDarts.class, new Object[] {players, target});
+	*/
+	setTable();
+	
+	// Joshua's
+	/*for(int i = 0; i < Num; i++) {
+	
+		String Names = JOptionPane.showInputDialog(pop, "Type in name: ");
 		User one = new User(Names);
 		VVM.addUser(one);
 
@@ -260,7 +272,7 @@ private static void CreateGame() {
 		Model.setValueAt(301, i, 1);
 		Model.setValueAt(0, i, 2);	
 		
-	}
+	}*/
 	
 	JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
 	
