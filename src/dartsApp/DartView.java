@@ -157,7 +157,7 @@ public class DartView extends SavedDataReader{
         			VVM = new DartViewModel();
         			VVM.newGame(ClassicDarts.class, new Object[] { (byte)2 });
         			CreateGame();
-        			setTable();
+        			updateTable();
         			
         	}if(a.getSource() == addScorebutton) {
         		
@@ -170,14 +170,14 @@ public class DartView extends SavedDataReader{
         		if(VVM.hasWinner()) {
         			//researched pop up windows from https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
         			JOptionPane.showMessageDialog(pop, VVM.getWinner().getName() + " has Won!", "WINNER", JOptionPane.INFORMATION_MESSAGE);
-        			JSONObject obj = new JSONObject(VVM);
-        			SavedDataReader.saveUserData(obj);
+        			//todo, save previous game into file
+        			restartGame();
         			VVM.endGame();
-        			CreateGame();
+        			
         		}
         		
         		textPane.setText("");
-        		setTable();
+        		updateTable();
         		
         		}
         		
@@ -190,11 +190,6 @@ public class DartView extends SavedDataReader{
         				
         			ArrayList<User> users = SavedDataReader.getUsers();
         				
-        			//	String name = users.get(i).getName();
-        			//	int win = users.get(i).getWins();
-        			//	double avg = users.get(i).getAverage();
-        			
-        		     //userTextInfo.append(String.format("%s (Wins: %d) (Average: %.2f) \n", name, win, avg ));
         			 userTextInfo.append(users.get(i).toString()+ "\n\n");
         			}
         		} else {
@@ -210,7 +205,7 @@ public class DartView extends SavedDataReader{
         		
         		VVM.addUser(one);
         		textPane.setText("");
-        		setTable();
+        		updateTable();
         		
         	}
         		
@@ -220,7 +215,8 @@ public class DartView extends SavedDataReader{
 	};
 	
 	
-	private static void setTable() {
+	//current update of the game
+	private void updateTable() {
 			
 		for(int i = 0; i < VVM.getPlayerCount(); i++) {
 			
@@ -236,10 +232,21 @@ public class DartView extends SavedDataReader{
 		
 	}
 	
+	private static JTable createTable() {
+			
+		
+		
+		
+	}
+	
+/**
+ * Function to Create a new game, with user prompts, and input. 
+ * 
+ */
 
 private void CreateGame() {
 	
-	String playerNum = JOptionPane.showInputDialog(pop, "How many players would you like to add? ");
+	String playerNum = JOptionPane.showInputDialog(pop, "How many players would you like? ");
 	int Num = Integer.parseInt(playerNum);
 	
 	// Ethan's take on the problem
@@ -259,10 +266,14 @@ private void CreateGame() {
 	Short target = 301;
 	VVM.newGame(ClassicDarts.class, new Object[] {players, target});
 	*/
-	setTable();
 	
-	// Joshua's
-	/*for(int i = 0; i < Num; i++) {
+	
+	
+	updateTable();
+	
+	// Joshua's 
+	/**@deprecated
+	 * for(int i = 0; i < Num; i++) {
 	
 		String Names = JOptionPane.showInputDialog(pop, "Type in name: ");
 		User one = new User(Names);
@@ -275,6 +286,32 @@ private void CreateGame() {
 	}*/
 	
 	JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
+	
+}
+
+/**
+ * function to restart a game
+ */
+
+private void restartGame() {
+	
+	  int j=JOptionPane.showConfirmDialog(pop,"Would you like to restart the game with the same players?");  
+	  if(j==JOptionPane.YES_OPTION){  
+		  
+//copy and pass the players array
+		  User[] players = new User[VVM.getPlayerCount()];
+		  Object[] player_obj = VVM.getPlayers().toArray();
+		  for(int i = 0; i < player_obj.length; i++) {
+			  players[i] = (User) player_obj[i];
+		  }
+		  
+			VVM.newGame(ClassicDarts.class, new Object[] {players});
+			
+	  } else {
+		  
+		 CreateGame();
+		  
+	  }
 	
 }
 
