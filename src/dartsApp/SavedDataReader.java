@@ -141,6 +141,7 @@ public abstract class SavedDataReader {
 			base_json_obj.put(USER_ARRAY, new JSONArray());
 			
 			System.out.println("Recreated base object");
+			printToFile(base_json_obj);
 			
 			return base_json_obj;
 		}
@@ -208,7 +209,7 @@ public abstract class SavedDataReader {
 				if(game_data_arr == null) {
 					// create it
 					JSONObject new_cda_obj = new JSONObject();
-					new_cda_obj.append(game_type_array_name, new JSONArray());
+					new_cda_obj.put(game_type_array_name, new JSONArray());
 					// append it to the base array
 					base_arr.put(new_cda_obj);
 					
