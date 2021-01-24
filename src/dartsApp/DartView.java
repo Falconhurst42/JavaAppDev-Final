@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
+
+import org.json.JSONObject;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
@@ -30,21 +33,19 @@ public class DartView extends SavedDataReader{
 	private JPanel panel;
 	private JTable dataTable;
 	private JScrollPane scrollPane;
-	private JFrame pop;
+	private static JFrame pop;
 	private JButton addUser;
 	private JButton userLstBtn;
 	private int count = 1;
 	private JTextArea userTextInfo;
 	private SavedDataReader obj;
 	
-	private String tableCols[] = { "Name", "Score", "Avg. Score" };
+	private static String tableCols[] = { "Name", "Score", "Avg. Score" };
 	private static String data[][] = {{" "," "," "}, {" "," ", " "}, {" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "}};
 	
-	
-	
-	//used a dataModel to reset table 
+ //used a dataModel to reset table 
 	//found at https://stackoverflow.com/questions/3879610/how-to-clear-contents-of-a-jtable/3880040
-	DefaultTableModel Model = new DefaultTableModel(data, tableCols) {
+	static DefaultTableModel Model = new DefaultTableModel(data, tableCols) {
 			
 			private static final long serialVersionUID = 1L;
 
@@ -54,12 +55,12 @@ public class DartView extends SavedDataReader{
 		   };
 	
   
-	private DartViewModel VVM = new DartViewModel();
+	private static DartViewModel VVM = new DartViewModel();
 	private static ArrayList<User> user;
 	private String userArr[];
 	private Game gameObj = new ClassicDarts((byte)2);
 	
-	private ArrayList<Short> Scores = new ArrayList<Short>(VVM.getScores());
+	private static ArrayList<Short> Scores = new ArrayList<Short>(VVM.getScores());
 	private ArrayList<Double> avg = new ArrayList<Double>(VVM.getAverages());
 	
 	/**
@@ -83,16 +84,7 @@ public class DartView extends SavedDataReader{
 	 * Create the application.
 	 */
 	public DartView() {
-		
-		
-	//	user = SavedDataReader.getUsers();
-	//	for(int i = 0; i < user.size(); i++) {
-			
-	//		data[0][0] = user.get(0).getName();
-		
-	//	}
-		
-		JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
+		CreateGame();
 		initialize();
 	}
 
@@ -129,10 +121,10 @@ public class DartView extends SavedDataReader{
 		panel = new JPanel();
 		frmDartGame.getContentPane().add(panel, BorderLayout.CENTER);
 	   
-	   setTable();
+	  // setTable();
 	   
-	   userLstBtn = new JButton("User Info");
-	   userLstBtn.setBounds(85, 10, 92, 27);
+	   userLstBtn = new JButton("Old User Info");
+	   userLstBtn.setBounds(78, 10, 113, 27);
 	   userLstBtn.addActionListener(actionListener);
 	   panel.setLayout(null);
 	   panel.add(userLstBtn);
@@ -140,6 +132,7 @@ public class DartView extends SavedDataReader{
 	   dataTable = new JTable();
 	   
 	   dataTable.setModel(Model);
+	 
 	   
 	   scrollPane = new JScrollPane(dataTable);
 	   scrollPane.setBounds(306, 10, 409, 203);
@@ -148,11 +141,10 @@ public class DartView extends SavedDataReader{
 	   userTextInfo = new JTextArea();
 	   userTextInfo.setBounds(20, 47, 230, 171);
 	   userTextInfo.setWrapStyleWord(true);
-	   panel.add(userTextInfo);
 	   
-	   JPanel panel_1 = new JPanel();
-	   panel_1.setBounds(20, 228, 695, 253);
-	   panel.add(panel_1);
+	   JScrollPane scroller = new JScrollPane(userTextInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	   scroller.setBounds(20, 47, 253, 238);
+	   panel.add(scroller);
 	   
 	   
 	}
@@ -168,9 +160,9 @@ public class DartView extends SavedDataReader{
         			
         			JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
         			
-        			
         			VVM = new DartViewModel();
         			VVM.newGame(ClassicDarts.class, new Object[] { (byte)2 });
+        			CreateGame();
         			setTable();
         			
         	}if(a.getSource() == addScorebutton) {
@@ -184,7 +176,10 @@ public class DartView extends SavedDataReader{
         		if(VVM.hasWinner()) {
         			//researched pop up windows from https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
         			JOptionPane.showMessageDialog(pop, VVM.getWinner().getName() + " has Won!", "WINNER", JOptionPane.INFORMATION_MESSAGE);
+        			JSONObject obj = new JSONObject(VVM);
+        			SavedDataReader.saveUserData(obj);
         			VVM.endGame();
+        			CreateGame();
         		}
         		
         		textPane.setText("");
@@ -199,16 +194,14 @@ public class DartView extends SavedDataReader{
         	
         			for(int i = 0; i < VVM.getPlayers().size(); i++) {
         				
-        				ArrayList<User> users = SavedDataReader.getUsers();
+        			ArrayList<User> users = SavedDataReader.getUsers();
         				
-        				String name = users.get(i).getName();
-        				int win = users.get(i).getWins();
-        				double avg = users.get(i).getAverage();
+        			//	String name = users.get(i).getName();
+        			//	int win = users.get(i).getWins();
+        			//	double avg = users.get(i).getAverage();
         			
-        				
-        				
-        		      userTextInfo.append(String.format("%s (Wins: %d) (Average: %.2f) \n", name, win, avg ));
-        			 //userTextInfo.append(users.get(i).toString()+ "\n\n");
+        		     //userTextInfo.append(String.format("%s (Wins: %d) (Average: %.2f) \n", name, win, avg ));
+        			 userTextInfo.append(users.get(i).toString()+ "\n\n");
         			}
         		} else {
         				
@@ -233,7 +226,7 @@ public class DartView extends SavedDataReader{
 	};
 	
 	
-	private void setTable() {
+	private static void setTable() {
 			
 		for(int i = 0; i < Scores.size(); i++) {
 			
@@ -251,9 +244,25 @@ public class DartView extends SavedDataReader{
 	
 
 
-private static void createTable(JTable J, GameInfo obj) {
+private static void CreateGame() {
 	
-	obj.getPlayers();
+	String playerNum = JOptionPane.showInputDialog(pop, "How many players would you like to add? ");
+	int Num = Integer.parseInt(playerNum);
+	
+	
+	for(int i = 0; i < Num; i++) {
+	
+		String Names =JOptionPane.showInputDialog(pop, "Type in name: ");
+		User one = new User(Names);
+		VVM.addUser(one);
+
+		Model.setValueAt(Names, i, 0);
+		Model.setValueAt(301, i, 1);
+		Model.setValueAt(0, i, 2);	
+		
+	}
+	
+	JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
 	
 }
 
