@@ -22,6 +22,10 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import javax.swing.JTextArea;
 
 public class DartView extends SavedDataReader{
@@ -192,6 +196,7 @@ public class DartView extends SavedDataReader{
         				
         			 userTextInfo.append(users.get(i).toString()+ "\n\n");
         			}
+        			
         		} else {
         				
         				userTextInfo.setText(" "); 				
@@ -232,11 +237,19 @@ public class DartView extends SavedDataReader{
 		
 	}
 	
+	//function to return a new JTable 
 	private static JTable createTable() {
+		JTable j = new JTable();
+		
+		ArrayList<GameInfo> gameInfo = new ArrayList<GameInfo>(SavedDataReader.getGameInfosForType(ClassicDarts.class));
+		for(int i = 0; i < gameInfo.size(); i++) {
 			
+		ArrayList<User> users = gameInfo.get(i).getPlayers();
+	
+			
+		}
 		
-		
-		
+		return j;
 	}
 	
 /**
@@ -246,47 +259,46 @@ public class DartView extends SavedDataReader{
 
 private void CreateGame() {
 	
-	String playerNum = JOptionPane.showInputDialog(pop, "How many players would you like? ");
-	int Num = Integer.parseInt(playerNum);
-	
-	// Ethan's take on the problem
-	// create players array
-	User[] players = new User[Num];
-	
-	// get player names and create players
-	for(int i = 0; i < Num; i++) {
-		String name = JOptionPane.showInputDialog(pop, "Type in name: ");
-		players[i] = new User(name);
-	}
-	
-	// pass players to newGame initializer
-	VVM.newGame(ClassicDarts.class, new Object[] {players});
-	/* NOTE: the following code would do the same as the above function call
-	 * while also setting the target score of the game to the value of "target"
-	Short target = 301;
-	VVM.newGame(ClassicDarts.class, new Object[] {players, target});
-	*/
-	
-	
-	
-	updateTable();
-	
-	// Joshua's 
-	/**@deprecated
-	 * for(int i = 0; i < Num; i++) {
-	
-		String Names = JOptionPane.showInputDialog(pop, "Type in name: ");
-		User one = new User(Names);
-		VVM.addUser(one);
+    // get map of user names to users
+    Map<String, User> user_names = new HashMap<String, User>();
+    VVM.getUsers().forEach(u -> user_names.put(u.getName(), u));
+    
+    // get player count
+    String player_count = JOptionPane.showInputDialog(pop, "How many players would you like to add? ");
+    int count = Integer.parseInt(player_count);
+    
+    // Ethan's take on the problem
+    // create players array
+    User[] players = new User[count];
+    
+    // get player names and create players
+    for(int i = 0; i < count; i++) {
+        String name = JOptionPane.showInputDialog(pop, "Type in name or leave blank to create guest user: ");
+        // if empty input
+        if(name.compareTo("") == 0) {
+            // create guest user
+            players[i] = new User(i+1);
+        }
+        // else if player already exists
+        else if(user_names.containsKey(name)) {
+            // add existing player
+            players[i] = user_names.get(name);
+        }
+        // else
+        else {
+            // create new player
+            players[i] = new User(name);
+        }
+    }
+    
+    // pass players to newGame initializer
+    VVM.newGame(ClassicDarts.class, new Object[] {players});
+    
+    // update table to display
+    updateTable();
+    
+    JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
 
-		Model.setValueAt(Names, i, 0);
-		Model.setValueAt(301, i, 1);
-		Model.setValueAt(0, i, 2);	
-		
-	}*/
-	
-	JOptionPane.showMessageDialog(pop, "New Darts game", "NEW GAME", JOptionPane.INFORMATION_MESSAGE);
-	
 }
 
 /**
