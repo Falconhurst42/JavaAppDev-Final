@@ -959,6 +959,486 @@
                 12
             ],
             "winner id": 11
+        },
+        {
+            "player scores": [
+                2,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                123,
+                123
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 14
+        },
+        {
+            "player scores": [
+                2,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                174,
+                174
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 14
+        },
+        {
+            "player scores": [
+                0,
+                2
+            ],
+            "played from": 301,
+            "player dart counts": [
+                153,
+                150
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 13
+        },
+        {
+            "player scores": [
+                2,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                75,
+                75
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 14
+        },
+        {
+            "player scores": [
+                6,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                54,
+                54
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 14
+        },
+        {
+            "player scores": [
+                0,
+                5
+            ],
+            "played from": 301,
+            "player dart counts": [
+                66,
+                63
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 13
+        },
+        {
+            "player scores": [
+                1,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                114,
+                114
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 14
+        },
+        {
+            "player scores": [
+                0,
+                4
+            ],
+            "played from": 301,
+            "player dart counts": [
+                108,
+                105
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 13
+        },
+        {
+            "player scores": [
+                78,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                48,
+                48
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 14
+        },
+        {
+            "player scores": [
+                0,
+                2
+            ],
+            "played from": 301,
+            "player dart counts": [
+                114,
+                111
+            ],
+            "player ids": [
+                13,
+                14
+            ],
+            "winner id": 13
+        },
+        {
+            "player scores": [
+                1,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                114,
+                114
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 16
+        },
+        {
+            "player scores": [
+                6,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                87,
+                87
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 16
+        },
+        {
+            "player scores": [
+                0,
+                1
+            ],
+            "played from": 301,
+            "player dart counts": [
+                96,
+                93
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 15
+        },
+        {
+            "player scores": [
+                3,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                63,
+                63
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 16
+        },
+        {
+            "player scores": [
+                1,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                189,
+                189
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 16
+        },
+        {
+            "player scores": [
+                0,
+                1
+            ],
+            "played from": 301,
+            "player dart counts": [
+                285,
+                282
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 15
+        },
+        {
+            "player scores": [
+                1,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                285,
+                285
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 16
+        },
+        {
+            "player scores": [
+                1,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                96,
+                96
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 16
+        },
+        {
+            "player scores": [
+                0,
+                5
+            ],
+            "played from": 301,
+            "player dart counts": [
+                63,
+                60
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 15
+        },
+        {
+            "player scores": [
+                3,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                123,
+                123
+            ],
+            "player ids": [
+                15,
+                16
+            ],
+            "winner id": 16
+        },
+        {
+            "player scores": [
+                8,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                51,
+                51
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 18
+        },
+        {
+            "player scores": [
+                0,
+                41
+            ],
+            "played from": 301,
+            "player dart counts": [
+                45,
+                42
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 17
+        },
+        {
+            "player scores": [
+                4,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                87,
+                87
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 18
+        },
+        {
+            "player scores": [
+                0,
+                1
+            ],
+            "played from": 301,
+            "player dart counts": [
+                498,
+                495
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 17
+        },
+        {
+            "player scores": [
+                17,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                48,
+                48
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 18
+        },
+        {
+            "player scores": [
+                0,
+                8
+            ],
+            "played from": 301,
+            "player dart counts": [
+                90,
+                87
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 17
+        },
+        {
+            "player scores": [
+                0,
+                1
+            ],
+            "played from": 301,
+            "player dart counts": [
+                90,
+                87
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 17
+        },
+        {
+            "player scores": [
+                0,
+                2
+            ],
+            "played from": 301,
+            "player dart counts": [
+                168,
+                165
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 17
+        },
+        {
+            "player scores": [
+                3,
+                0
+            ],
+            "played from": 301,
+            "player dart counts": [
+                63,
+                63
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 18
+        },
+        {
+            "player scores": [
+                0,
+                1
+            ],
+            "played from": 301,
+            "player dart counts": [
+                186,
+                183
+            ],
+            "player ids": [
+                17,
+                18
+            ],
+            "winner id": 17
         }
     ]}],
     "users": [
@@ -1057,7 +1537,55 @@
             "name": "Joshua #3",
             "id": 12,
             "losses": 7
+        },
+        {
+            "wins": 4,
+            "average": 2.836734693877551,
+            "dart count": 1029,
+            "name": "Ethan #1",
+            "id": 13,
+            "losses": 6
+        },
+        {
+            "wins": 6,
+            "average": 2.9469026548672566,
+            "dart count": 1017,
+            "name": "Joshua #1",
+            "id": 14,
+            "losses": 4
+        },
+        {
+            "wins": 3,
+            "average": 2.1370449678800854,
+            "dart count": 1401,
+            "name": "Ethan #2",
+            "id": 15,
+            "losses": 7
+        },
+        {
+            "wins": 7,
+            "average": 2.157327586206897,
+            "dart count": 1392,
+            "name": "Joshua #2",
+            "id": 16,
+            "losses": 3
+        },
+        {
+            "wins": 6,
+            "average": 2.2458521870286576,
+            "dart count": 1326,
+            "name": "Ethan #3",
+            "id": 17,
+            "losses": 4
+        },
+        {
+            "wins": 4,
+            "average": 2.2599388379204894,
+            "dart count": 1308,
+            "name": "Joshua #3",
+            "id": 18,
+            "losses": 6
         }
     ],
-    "next id": 13
+    "next id": 19
 }
