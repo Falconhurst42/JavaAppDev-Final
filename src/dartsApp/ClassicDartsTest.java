@@ -1,6 +1,5 @@
 package dartsApp;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class ClassicDartsTest {

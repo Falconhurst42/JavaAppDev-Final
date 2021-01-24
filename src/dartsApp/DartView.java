@@ -39,7 +39,10 @@ public class DartView extends SavedDataReader {
     private int count = 1;
     private JTextArea userTextInfo;
     private SavedDataReader obj;
-
+    private static JPanel oldTablePanel;
+    private static JScrollPane ret;
+    private static JTable j;
+    
     private static String tableCols[] = { "Name", "Score", "Avg. Score" };
     private static String data[][] = { { " ", " ", " " }, { " ", " ", " " }, { " ", " ", " " }, { " ", " ", " " },
             { " ", " ", " " } };
@@ -55,6 +58,16 @@ public class DartView extends SavedDataReader {
             return false;
         }
     };
+    
+    static DefaultTableModel tempModel = new DefaultTableModel(data, tableCols) {
+
+        private static final long serialVersionUID = 1L;
+
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    
 
     private static DartViewModel VVM = new DartViewModel();
 
@@ -81,13 +94,14 @@ public class DartView extends SavedDataReader {
     public DartView() {
         CreateGame();
         initialize();
+        
     }
 
     /**
      * Initialize the contents of the frame.
      */
     private void initialize() {
-
+    	
         frmDartGame = new JFrame();
         frmDartGame.setTitle("DART GAME");
         frmDartGame.setBounds(100, 100, 765, 577);
@@ -137,9 +151,15 @@ public class DartView extends SavedDataReader {
         userTextInfo.setWrapStyleWord(true);
 
         JScrollPane scroller = new JScrollPane(userTextInfo, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        
         scroller.setBounds(20, 47, 253, 238);
         panel.add(scroller);
+        
+        oldTablePanel = new JPanel();
+        oldTablePanel.setBounds(283, 235, 458, 274);
+        panel.add(oldTablePanel);
+        createTable();
 
     }
 
@@ -189,9 +209,9 @@ public class DartView extends SavedDataReader {
                 count++;
                 if (count % 2 == 0) {
 
-                    for (int i = 0; i < VVM.getPlayers().size(); i++) {
+                    ArrayList<User> users = VVM.getUsers();
 
-                        ArrayList<User> users = SavedDataReader.getUsers();
+                    for (int i = 0; i < users.size(); i++) {
 
                         userTextInfo.append(users.get(i).toString() + "\n\n");
                     }
@@ -217,6 +237,7 @@ public class DartView extends SavedDataReader {
 
     };
 
+
     // current update of the game
     private void updateTable() {
 
@@ -235,21 +256,10 @@ public class DartView extends SavedDataReader {
     }
 
     // function to return a new JTable
-    private static JTable createTable() {
-        JTable j = new JTable();
+    private static void createTable() {
+       
         
-        DefaultTableModel tempModel = new DefaultTableModel(data, tableCols) {
-
-            private static final long serialVersionUID = 1L;
-
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        
-        j.setModel(tempModel);
-
-        ArrayList<GameInfo> gameInfo = new ArrayList<GameInfo>(SavedDataReader.getGameInfosForType(ClassicDarts.class));
+        ArrayList<GameInfo> gameInfo = SavedDataReader.getGameInfosForType(ClassicDarts.class);
         // for each game info
         for (int i = 0; i < gameInfo.size(); i++) {
         	GameInfo gi = gameInfo.get(i);
@@ -267,17 +277,19 @@ public class DartView extends SavedDataReader {
             	String averages = Double.toString(avg);
             	
             	tempModel.setValueAt(name, x, 0);
-            	tempModel.setValueAt(scores, x, 0);
-            	tempModel.setValueAt(averages, x, 0);
-            	
+            	tempModel.setValueAt(scores, x, 1);
+            	tempModel.setValueAt(averages, x, 2);
             	
             }
         }
         
+        j = new JTable(); 
+        j.setModel(tempModel);
+        ret = new JScrollPane(j);
+        ret.setBounds(10, 237, 389, -226);    
+       
         
-    
-        
-        return j;
+        oldTablePanel.add(ret);
     }
 
     /**
@@ -290,7 +302,7 @@ public class DartView extends SavedDataReader {
         // get map of user names to users
         Map<String, User> user_names = new HashMap<String, User>();
         VVM.getUsers().forEach(u -> user_names.put(u.getName(), u));
-
+        
         // get player count
         String player_count = JOptionPane.showInputDialog(pop, "How many players would you like to add? ");
         int count = Integer.parseInt(player_count);
@@ -311,6 +323,7 @@ public class DartView extends SavedDataReader {
             else if (user_names.containsKey(name)) {
                 // add existing player
                 players[i] = user_names.get(name);
+                VVM.addUser(players[i]);
             }
             // else
             else {
@@ -354,7 +367,6 @@ public class DartView extends SavedDataReader {
         }
 
     }
-
 }
 
 
