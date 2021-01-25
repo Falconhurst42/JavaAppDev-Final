@@ -303,7 +303,7 @@ public class DartView extends SavedDataReader {
         	
             String name = VVM.getPlayers().get(i).getName();
             String score = VVM.getScores().get(i).toString();
-            String average = VVM.getAverages().get(i).toString();
+            String average = String.format("%.3f", VVM.getAverages().get(i));
             String darts = VVM.getDartCounts().get(i).toString();
             
           
@@ -363,7 +363,7 @@ Model.setRowCount(VVM.getPlayerCount());
             	
             	String dart = Integer.toString(darts);
             	String scores = Short.toString(score);
-            	String averages = Double.toString(avg);
+            	String averages = String.format("%.3f", avg);
             	
             	//tempModel add rows, of ev
             	tempModel.addRow(new Object[] {
