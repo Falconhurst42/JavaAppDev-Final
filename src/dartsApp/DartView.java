@@ -205,11 +205,13 @@ public class DartView extends SavedDataReader {
 
                 if (textPane.getText() != null) {
                     String txt = textPane.getText();
-                       short num;
-                   try {
-                    	num = Short.parseShort(txt);
-                    	VVM.inputScore(num);
-                   }
+
+                    Game.GameEvent ret = null;
+                    short num;
+                    try {
+                     	num = Short.parseShort(txt);
+                    	ret = VVM.inputScore(num);
+                    }
                     catch (Exception ex) {
                     	// popup? clear?
                    	JOptionPane.showMessageDialog(pop, "Invalid, not an integer", "ALERT", JOptionPane.WARNING_MESSAGE);
@@ -221,23 +223,24 @@ public class DartView extends SavedDataReader {
                     // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
                  // popups, checking different game cases
                     
-                    
-                  switch (VVM.inputScore(num)) {
-	                    case INVALIDSCORE:
-	                    	JOptionPane.showMessageDialog(pop, "Invalid Score", "Warning", JOptionPane.WARNING_MESSAGE);
-	                    	break;
-	                    case PLAYERBUSTED:
-                    	JOptionPane.showMessageDialog(pop, "Player: " + VVM.getCurrentPlayer() + " Busted", "PLAYER BUST", JOptionPane.PLAIN_MESSAGE);
-	                    	break;
-	                    case GAMEOVER:           
-	                        JOptionPane.showMessageDialog(pop, VVM.getWinner().getName() + " has Won!", "WINNER",
-	                                JOptionPane.INFORMATION_MESSAGE);
-	        
-                        
-                        restartGame();
-	                        break;
-	                    	
-                    }
+                   if(ret != null) {
+	                  switch (ret) {
+		                    case INVALIDSCORE:
+		                    	JOptionPane.showMessageDialog(pop, "Invalid Score", "Warning", JOptionPane.WARNING_MESSAGE);
+		                    	break;
+		                    case PLAYERBUSTED:
+		                    	JOptionPane.showMessageDialog(pop, "Player: " + VVM.getCurrentPlayer() + " Busted", "PLAYER BUST", JOptionPane.PLAIN_MESSAGE);
+		                    	break;
+		                    case GAMEOVER:           
+		                        JOptionPane.showMessageDialog(pop, VVM.getWinner().getName() + " has Won!", "WINNER",
+		                                JOptionPane.INFORMATION_MESSAGE);
+		        
+	                     
+		                        restartGame();
+		                        break;
+		                    	
+	                    }
+                   }
 
                     textPane.setText("");
                     updateTable();
