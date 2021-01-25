@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -229,16 +230,14 @@ public class DartView extends SavedDataReader {
                     Game.GameEvent ret = null;
                     short num;
                     try {
-                    	
                      	num = Short.parseShort(txt);
                     	ret = VVM.inputScore(num);
                     }
                     catch (Exception ex) {
                     	// popup? clear?
-                   	JOptionPane.showMessageDialog(pop, "Invalid, not an integer", "ALERT", JOptionPane.WARNING_MESSAGE);
-                   	
-                	return;
-                   }
+                    	JOptionPane.showMessageDialog(pop, "Invalid, not an integer", "ALERT", JOptionPane.WARNING_MESSAGE);
+                    	return;
+                    }
                     
                  	// researched pop up windows from
                     // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
@@ -337,7 +336,7 @@ Model.setRowCount(VVM.getPlayerCount());
     private static void createTable() {
     	
 
-    	//method for clearing the table https://stackoverflow.com/questions/10413977/removing-all-the-rows-of-defaulttablemodel
+    	// method for clearing the table https://stackoverflow.com/questions/10413977/removing-all-the-rows-of-defaulttablemodel
     	
     	if (tempModel.getRowCount() > 0) {
     	    for (int l = tempModel.getRowCount() - 1; l > -1; l--) {
@@ -400,7 +399,7 @@ Model.setRowCount(VVM.getPlayerCount());
         // get player count
         while(count <= 1) {
 		    try  { 
-		    	player_count = JOptionPane.showInputDialog(pop, "How many players would you like to add? "); 
+		    	player_count = JOptionPane.showInputDialog(pop, "How many players would you like to add? ");
 		    	count = Integer.parseInt(player_count);
 		    } catch(Exception ex) {
 		    	// popup try again
@@ -464,7 +463,12 @@ Model.setRowCount(VVM.getPlayerCount());
 
             VVM.newGame(ClassicDarts.class, new Object[] { players });
 
-        } else {
+        } else if(j == JOptionPane.CANCEL_OPTION) {
+        	// this method of closing window from https://stackoverflow.com/a/1235994
+        	frmDartGame.dispatchEvent(new WindowEvent(frmDartGame, WindowEvent.WINDOW_CLOSING));
+        }
+        
+        else {
 
             CreateGame();
 
