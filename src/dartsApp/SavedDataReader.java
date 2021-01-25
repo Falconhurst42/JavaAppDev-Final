@@ -233,12 +233,43 @@ public abstract class SavedDataReader {
 		}
 
 	// PUBLIC READERS
+		
+		/**
+		 * Gets the number of GameInfos saved for the given game type
+		 * @param game_type The class of the game type in question
+		 * @return Returns the number of GameInfos saved for the given game type
+		 */
+		public static int getGameInfoCountForType(Class<? extends Game> game_type) {
+			return readSavedDataArray(game_type).length();
+		}
+		
 		/**
 		 * Reads all the saved instances of the the given game type from memory into GameInfo objects
 		 * @param game_type The class of the game type in question
 		 * @return Returns an ArrayList of GameInfo objects corresponding to the saved games
 		 */
 		public static ArrayList<GameInfo> getGameInfosForType(Class<? extends Game> game_type) {
+			return getGameInfosForType(game_type, 0, getGameInfoCountForType(game_type));
+		}
+		
+		/**
+		 * Reads the last [count] saved instances of the the given game type from memory into GameInfo objects
+		 * @param game_type The class of the game type in question
+		 * @param count The number of games to fetch
+		 * @return Returns an ArrayList of GameInfo objects corresponding to the saved games
+		 */
+		public static ArrayList<GameInfo> getGameInfosForType(Class<? extends Game> game_type, int count) {
+			return getGameInfosForType(game_type, 0, count);
+		}
+		
+		/**
+		 * Reads a range of saved instances of the the given game type from memory into GameInfo objects
+		 * @param game_type The class of the game type in question
+		 * @param start The index of the first GameInfo to read where 0 is the last game
+		 * @param end The index to stop at, this index will not be read
+		 * @return Returns an ArrayList of GameInfo objects corresponding to the saved games
+		 */
+		public static ArrayList<GameInfo> getGameInfosForType(Class<? extends Game> game_type, int start, int end) {
 			// get users
 			ArrayList<User> users = getUsers();
 			
@@ -249,8 +280,8 @@ public abstract class SavedDataReader {
 			ArrayList<GameInfo> ret = new ArrayList<GameInfo>();
 			
 			// convert to GameInfo objects
-			for(Object o: json_arr) {
-				JSONObject jo = (JSONObject) o;
+			for(int i = start; i < end && i < json_arr.length(); i++) {
+				JSONObject jo = (JSONObject) json_arr.get(i);
 				
 				// get user ids
 				ArrayList<Integer> user_ids = new ArrayList<Integer>();
