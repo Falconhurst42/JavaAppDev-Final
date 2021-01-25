@@ -1,3 +1,3 @@
-# Java App Dev Final Project
+# Darts App by Ethan Worth and Joshua Shetler
 
-The base features would be a simple ui which tracks player scores. The level beyond that would be to store information about users between games/application startups such as their win/loss record or information about how they scored.
+This application allows the user to track the scores in a gmae of darts while also saving and displayng information about players and past games.
