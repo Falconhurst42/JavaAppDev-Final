@@ -58,6 +58,7 @@ public class DartView extends SavedDataReader {
     private Color CORK = new Color(249,223,188);
     
     private static String tableCols[] = { "Name", "Score","Dart Number", "Avg. Score" };
+    private static String prevCols[] = { "Game Number","Name", "Score","Dart Number", "Avg. Score" };
     private static String data[][] = { { " ", " ", " " }, { " ", " ", " " }, { " ", " ", " " }, { " ", " ", " " },
             { " ", " ", " " } };
 
@@ -73,7 +74,7 @@ public class DartView extends SavedDataReader {
         }
     };
     
-    static DefaultTableModel tempModel = new DefaultTableModel(data, tableCols) {
+    static DefaultTableModel tempModel = new DefaultTableModel(data, prevCols) {
 
         private static final long serialVersionUID = 1L;
 
@@ -117,7 +118,7 @@ public class DartView extends SavedDataReader {
     	
         frmDartGame = new JFrame();
         frmDartGame.setTitle("DART GAME");
-        frmDartGame.setBounds(100, 100, 811, 604);
+        frmDartGame.setBounds(100, 100, 833, 632);
         frmDartGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JToolBar toolBar = new JToolBar();
@@ -171,7 +172,7 @@ public class DartView extends SavedDataReader {
         panel.add(scroller);
         
         oldTablePanel = new JPanel();
-        oldTablePanel.setBounds(372, 349, 385, 161);
+        oldTablePanel.setBounds(372, 349, 416, 170);
         panel.add(oldTablePanel);
         
         txtCurrentGame = new JTextField();
@@ -185,9 +186,9 @@ public class DartView extends SavedDataReader {
         txtPreviousGames = new JTextField();
         txtPreviousGames.setEditable(false);
         txtPreviousGames.setFont(new Font("Arial Black", Font.PLAIN, 10));
-        txtPreviousGames.setText("Previous Game");
+        txtPreviousGames.setText("Previous Games");
         txtPreviousGames.setColumns(10);
-        txtPreviousGames.setBounds(512, 320, 113, 19);
+        txtPreviousGames.setBounds(522, 320, 113, 19);
         panel.add(txtPreviousGames);
         
         txtpnCurrentPlayer = new JTextField();
@@ -305,7 +306,9 @@ public class DartView extends SavedDataReader {
             String score = VVM.getScores().get(i).toString();
             String average = VVM.getAverages().get(i).toString();
             String darts = VVM.getDartCounts().get(i).toString();
-
+            
+          
+            
             Model.setValueAt(name, i, 0);
             Model.setValueAt(score, i, 1);
             Model.setValueAt(darts, i, 2);
@@ -332,10 +335,19 @@ Model.setRowCount(VVM.getPlayerCount());
 
     // function to return a new JTable
     private static void createTable() {
+    	
+
+    	//method for clearing the table https://stackoverflow.com/questions/10413977/removing-all-the-rows-of-defaulttablemodel
+    	
+    	if (tempModel.getRowCount() > 0) {
+    	    for (int l = tempModel.getRowCount() - 1; l > -1; l--) {
+    	    	tempModel.removeRow(l);
+    	    }
+    	}
          	
         ArrayList<GameInfo> gameInfo = SavedDataReader.getGameInfosForType(ClassicDarts.class);
         // for each game info
-    	tempModel.setRowCount(gameInfo.size());
+        
         for (int i = 0; i < gameInfo.size(); i++) {
         	GameInfo gi = gameInfo.get(i);
         	
@@ -348,22 +360,20 @@ Model.setRowCount(VVM.getPlayerCount());
             	short score = gi.getTotalScores().get(x);
             	double avg = gi.getAverages().get(x);
             	int darts = gi.getDartCounts().get(x);
+            	int gameNumber = i+1;
             	
             	String dart = Integer.toString(darts);
             	String scores = Short.toString(score);
             	String averages = Double.toString(avg);
             	
-            	tempModel.setValueAt("", x, 0);
-            	tempModel.setValueAt("", x, 1);
-            	tempModel.setValueAt("", x, 2);
-            	tempModel.setValueAt("", x, 3);
-            	
-            	tempModel.setValueAt(name, x, 0);
-            	tempModel.setValueAt(scores, x, 1);
-            	tempModel.setValueAt(dart, x, 2);
-            	tempModel.setValueAt(averages, x, 3);
+            	//tempModel add rows, of ev
+            	tempModel.addRow(new Object[] {(x==0 ? gameNumber : ""), name, scores, dart, averages});
             	
             }
+            // add space if not last GameInfo
+       
+            	tempModel.addRow(new Object[] {"", "", "", "", ""});
+           
         }
         oldTablePanel.setLayout(new GridLayout(0, 1, 0, 0));
         
@@ -385,9 +395,19 @@ Model.setRowCount(VVM.getPlayerCount());
         Map<String, User> user_names = new HashMap<String, User>();
         VVM.getUsers().forEach(u -> user_names.put(u.getName(), u));
         
+        String player_count = null;
+        int count = 0;
         // get player count
-        String player_count = JOptionPane.showInputDialog(pop, "How many players would you like to add? ");
-        int count = Integer.parseInt(player_count);
+        while(count <= 1) {
+		    try  { 
+		    	player_count = JOptionPane.showInputDialog(pop, "How many players would you like to add? "); 
+		    	count = Integer.parseInt(player_count);
+		    } catch(Exception ex) {
+		    	// popup try again
+		    	JOptionPane.showMessageDialog(pop, "Input Integer greater than one.", "TRY AGAIN", JOptionPane.WARNING_MESSAGE);
+		    }
+	    }
+       
 
         // Ethan's take on the problem
         // create players array
