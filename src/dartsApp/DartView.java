@@ -366,7 +366,13 @@ Model.setRowCount(VVM.getPlayerCount());
             	String averages = Double.toString(avg);
             	
             	//tempModel add rows, of ev
-            	tempModel.addRow(new Object[] {(x==0 ? gameNumber : ""), name, scores, dart, averages});
+            	tempModel.addRow(new Object[] {
+            			(x==0 ? gameNumber : ""), 
+            			(users.get(x) == gi.getWinner() ? String.format("%s (WON)", name) : name), 
+            			scores, 
+            			dart, 
+            			averages}
+            	);
             	
             }
             // add space if not last GameInfo
