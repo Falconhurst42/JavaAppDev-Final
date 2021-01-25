@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -23,18 +22,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JTextArea;
-import java.awt.CardLayout;
 import java.awt.Color;
-
 import javax.swing.JTextField;
 import java.awt.Font;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-
-import javax.swing.JLabel;
-import java.awt.TextArea;
-import javax.swing.JTextPane;
 
 public class DartView extends SavedDataReader {
 
@@ -54,6 +46,8 @@ public class DartView extends SavedDataReader {
     private static JScrollPane ret;
     private static JTable j;
     private  JTextField txtpnCurrentPlayer; 
+    private JTextField txtCurrentGame;
+    private JTextField txtPreviousGames;
     private Color GREEN = new Color(48,159,106);
     private Color RED = new Color(227,154,144);
     private Color CORK = new Color(249,223,188);
@@ -290,10 +284,6 @@ public class DartView extends SavedDataReader {
         }
     };
     
-    private JTextField txtCurrentGame;
-    private JTextField txtPreviousGames;
-
-
     // current update of the game
     private void updateTable() {
     	
@@ -303,7 +293,7 @@ public class DartView extends SavedDataReader {
         	
             String name = VVM.getPlayers().get(i).getName();
             String score = VVM.getScores().get(i).toString();
-            String average = String.format("%.3f", VVM.getAverages().get(i));
+            String average = VVM.getAverages().get(i).toString();
             String darts = VVM.getDartCounts().get(i).toString();
             
           
@@ -363,7 +353,7 @@ Model.setRowCount(VVM.getPlayerCount());
             	
             	String dart = Integer.toString(darts);
             	String scores = Short.toString(score);
-            	String averages = String.format("%.3f", avg);
+            	String averages = Double.toString(avg);
             	
             	//tempModel add rows, of ev
             	tempModel.addRow(new Object[] {
