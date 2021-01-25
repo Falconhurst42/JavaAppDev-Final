@@ -10,9 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
-import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -21,20 +21,23 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.JTextArea;
+import java.awt.CardLayout;
+import java.awt.Color;
+
+import javax.swing.JTextField;
+import java.awt.Font;
 
 public class DartView extends SavedDataReader {
 
     private JFrame frmDartGame;
     private JButton newGame;
     private JButton addScorebutton;
-    private JTextPane textPane;
+    private JTextField textPane;
     private JPanel panel;
     private JTable dataTable;
     private JScrollPane scrollPane;
     private static JFrame pop;
-    private JButton addUser;
     private JButton userLstBtn;
     private int count = 1;
     private JTextArea userTextInfo;
@@ -42,6 +45,10 @@ public class DartView extends SavedDataReader {
     private static JPanel oldTablePanel;
     private static JScrollPane ret;
     private static JTable j;
+    
+    private Color GREEN = new Color(48,159,106);
+    private Color RED = new Color(227,41,46);
+    private Color CORK = new Color(249,223,188);
     
     private static String tableCols[] = { "Name", "Score", "Avg. Score" };
     private static String data[][] = { { " ", " ", " " }, { " ", " ", " " }, { " ", " ", " " }, { " ", " ", " " },
@@ -94,7 +101,6 @@ public class DartView extends SavedDataReader {
     public DartView() {
         CreateGame();
         initialize();
-        
     }
 
     /**
@@ -104,7 +110,7 @@ public class DartView extends SavedDataReader {
     	
         frmDartGame = new JFrame();
         frmDartGame.setTitle("DART GAME");
-        frmDartGame.setBounds(100, 100, 765, 577);
+        frmDartGame.setBounds(100, 100, 765, 589);
         frmDartGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JToolBar toolBar = new JToolBar();
@@ -116,23 +122,21 @@ public class DartView extends SavedDataReader {
 
         addScorebutton = new JButton("Add Score");
         addScorebutton.addActionListener(actionListener);
-
-        addUser = new JButton("Add User");
-        addUser.addActionListener(actionListener);
-
-        toolBar.add(addUser);
         toolBar.add(addScorebutton);
 
-        textPane = new JTextPane();
+        textPane = new JTextField();
+        textPane.addActionListener(actionListener);
         toolBar.add(textPane);
 
         // panel positioning, designed by eclipse window.
         panel = new JPanel();
         frmDartGame.getContentPane().add(panel, BorderLayout.CENTER);
-
+        panel.setBackground(GREEN);
+       
         // setTable();
 
         userLstBtn = new JButton("Old User Info");
+        userLstBtn.setFont(new Font("Arial Black", Font.PLAIN, 10));
         userLstBtn.setBounds(78, 10, 113, 27);
         userLstBtn.addActionListener(actionListener);
         panel.setLayout(null);
@@ -143,7 +147,7 @@ public class DartView extends SavedDataReader {
         dataTable.setModel(Model);
 
         scrollPane = new JScrollPane(dataTable);
-        scrollPane.setBounds(306, 10, 409, 203);
+        scrollPane.setBounds(308, 33, 409, 203);
         panel.add(scrollPane);
 
         userTextInfo = new JTextArea();
@@ -157,8 +161,25 @@ public class DartView extends SavedDataReader {
         panel.add(scroller);
         
         oldTablePanel = new JPanel();
-        oldTablePanel.setBounds(283, 235, 458, 274);
+        oldTablePanel.setBounds(302, 271, 439, 238);
+        oldTablePanel.setBackground(CORK);
         panel.add(oldTablePanel);
+        
+        txtCurrentGame = new JTextField();
+        txtCurrentGame.setEditable(false);
+        txtCurrentGame.setFont(new Font("Arial Black", Font.PLAIN, 10));
+        txtCurrentGame.setText("Current Game");
+        txtCurrentGame.setBounds(465, 10, 95, 19);
+        panel.add(txtCurrentGame);
+        txtCurrentGame.setColumns(10);
+        
+        txtPreviousGames = new JTextField();
+        txtPreviousGames.setEditable(false);
+        txtPreviousGames.setFont(new Font("Arial Black", Font.PLAIN, 10));
+        txtPreviousGames.setText("Previous Games");
+        txtPreviousGames.setColumns(10);
+        txtPreviousGames.setBounds(458, 242, 113, 19);
+        panel.add(txtPreviousGames);
         createTable();
 
     }
@@ -180,23 +201,42 @@ public class DartView extends SavedDataReader {
                 updateTable();
 
             }
-            if (a.getSource() == addScorebutton) {
+            if (a.getSource() == addScorebutton || a.getSource() == textPane) {
 
                 if (textPane.getText() != null) {
                     String txt = textPane.getText();
-
-                    short num = (short) Integer.parseInt(txt);
-                    VVM.inputScore(num);
-
-                    if (VVM.hasWinner()) {
-                        // researched pop up windows from
-                        // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
-                        JOptionPane.showMessageDialog(pop, VVM.getWinner().getName() + " has Won!", "WINNER",
-                                JOptionPane.INFORMATION_MESSAGE);
-                        // todo, save previous game into file
+                       short num;
+                   try {
+                    	num = Short.parseShort(txt);
+                    	VVM.inputScore(num);
+                   }
+                    catch (Exception ex) {
+                    	// popup? clear?
+                   	JOptionPane.showMessageDialog(pop, "Invalid, not an integer", "ALERT", JOptionPane.WARNING_MESSAGE);
+                   	
+                	return;
+                   }
+                    
+                 	// researched pop up windows from
+                    // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
+                 // popups, checking different game cases
+                    
+                    
+                  switch (VVM.inputScore(num)) {
+	                    case INVALIDSCORE:
+	                    	JOptionPane.showMessageDialog(pop, "Invalid Score", "Warning", JOptionPane.WARNING_MESSAGE);
+	                    	break;
+	                    case PLAYERBUSTED:
+                    	JOptionPane.showMessageDialog(pop, "Player: " + VVM.getCurrentPlayer() + " Busted", "PLAYER BUST", JOptionPane.PLAIN_MESSAGE);
+	                    	break;
+	                    case GAMEOVER:           
+	                        JOptionPane.showMessageDialog(pop, VVM.getWinner().getName() + " has Won!", "WINNER",
+	                                JOptionPane.INFORMATION_MESSAGE);
+	        
                         
                         restartGame();
-                     
+	                        break;
+	                    	
                     }
 
                     textPane.setText("");
@@ -221,28 +261,22 @@ public class DartView extends SavedDataReader {
                     userTextInfo.setText(" ");
 
                 }
-
-            } else if (a.getSource() == addUser) {
-
-                String name = textPane.getText();
-                User one = new User(name);
-
-                VVM.addUser(one);
-                textPane.setText("");
-                updateTable();
-
             }
-
+                
         }
-
     };
+    
+    private JTextField txtCurrentGame;
+    private JTextField txtPreviousGames;
 
 
     // current update of the game
     private void updateTable() {
-
+    	
+    	Model.setRowCount(VVM.getPlayerCount());
+    	
         for (int i = 0; i < VVM.getPlayerCount(); i++) {
-
+        	
             String name = VVM.getPlayers().get(i).getName();
             String score = VVM.getScores().get(i).toString();
             String average = VVM.getAverages().get(i).toString();
@@ -253,6 +287,20 @@ public class DartView extends SavedDataReader {
 
         }
 
+    }
+    
+    private void clearTable() {
+    	
+Model.setRowCount(VVM.getPlayerCount());
+    	
+        for (int i = 0; i < VVM.getPlayerCount(); i++) {
+        	
+            Model.setValueAt("", i, 0);
+            Model.setValueAt("", i, 1);
+            Model.setValueAt("", i, 2);
+
+        }	
+    	
     }
 
     // function to return a new JTable
@@ -282,14 +330,14 @@ public class DartView extends SavedDataReader {
             	
             }
         }
+        oldTablePanel.setLayout(new CardLayout(0, 0));
         
         j = new JTable(); 
         j.setModel(tempModel);
         ret = new JScrollPane(j);
         ret.setBounds(10, 237, 389, -226);    
-       
         
-        oldTablePanel.add(ret);
+        oldTablePanel.add(ret, "name_250149541834600");
     }
 
     /**
@@ -329,6 +377,7 @@ public class DartView extends SavedDataReader {
             else {
                 // create new player
                 players[i] = new User(name);
+                VVM.addUser(players[i]);
             }
         }
 
@@ -348,6 +397,7 @@ public class DartView extends SavedDataReader {
 
     private void restartGame() {
     	VVM.endGame();
+    	createTable();
         int j = JOptionPane.showConfirmDialog(pop, "Would you like to restart the game with the same players?");
         if (j == JOptionPane.YES_OPTION) {
 
